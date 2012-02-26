@@ -7,6 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B0AAFDB14F6C5080082285E /* OWAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AAFDA14F6C5080082285E /* OWAccountController.m */; };
+		5B0AB03A14F6D1CB0082285E /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB02714F6D1CB0082285E /* TFHpple.m */; };
+		5B0AB03B14F6D1CB0082285E /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB02914F6D1CB0082285E /* TFHppleElement.m */; };
+		5B0AB03C14F6D1CB0082285E /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB02B14F6D1CB0082285E /* XPathQuery.m */; };
+		5B0AB03D14F6D1CB0082285E /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB02F14F6D1CB0082285E /* NSObject+SBJSON.m */; };
+		5B0AB03E14F6D1CB0082285E /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB03114F6D1CB0082285E /* NSString+SBJSON.m */; };
+		5B0AB03F14F6D1CB0082285E /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB03314F6D1CB0082285E /* SBJSON.m */; };
+		5B0AB04014F6D1CB0082285E /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB03514F6D1CB0082285E /* SBJsonBase.m */; };
+		5B0AB04114F6D1CB0082285E /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB03714F6D1CB0082285E /* SBJsonParser.m */; };
+		5B0AB04214F6D1CB0082285E /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AB03914F6D1CB0082285E /* SBJsonWriter.m */; };
+		5B0AB04814F6D2890082285E /* libxml2.2.7.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */; };
+		5B17FDD114FA17DA00272251 /* OWDatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B17FDD014FA17DA00272251 /* OWDatePickerController.m */; };
+		5B1A650214F6B8E400041B4C /* OWProjectsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1A650114F6B8E400041B4C /* OWProjectsController.m */; };
+		5B4572E614F89478000FD516 /* 40-inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4572E414F89478000FD516 /* 40-inbox.png */; };
+		5B4572E714F89478000FD516 /* 40-inbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4572E514F89478000FD516 /* 40-inbox@2x.png */; };
+		5B4572EB14F8955D000FD516 /* persondot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4572E914F8955D000FD516 /* persondot.png */; };
+		5B4572EC14F8955D000FD516 /* persondot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4572EA14F8955D000FD516 /* persondot@2x.png */; };
+		5B4572F314F895DC000FD516 /* 188-paint-roller.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4572F114F895DC000FD516 /* 188-paint-roller.png */; };
+		5B4572F414F895DC000FD516 /* 188-paint-roller@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4572F214F895DC000FD516 /* 188-paint-roller@2x.png */; };
+		5B58550F14F9B69B00C7E614 /* UINavigationController+RedstoneOverrides.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B58550E14F9B69B00C7E614 /* UINavigationController+RedstoneOverrides.m */; };
+		5B5E8A2A14FA521000D54B43 /* OWMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E8A2914FA521000D54B43 /* OWMenuCell.m */; };
+		5B5E8A2E14FA59FA00D54B43 /* OWIssueMoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E8A2D14FA59FA00D54B43 /* OWIssueMoreController.m */; };
+		5B6163EE14F6EABA007EF781 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B6163ED14F6EABA007EF781 /* MBProgressHUD.m */; };
+		5B760C0E14F6E2000040FE13 /* OWProjetoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B760C0D14F6E2000040FE13 /* OWProjetoCell.m */; };
+		5B760C1314F6E4460040FE13 /* 117-todo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B760C1114F6E4460040FE13 /* 117-todo.png */; };
+		5B760C1414F6E4460040FE13 /* 117-todo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B760C1214F6E4460040FE13 /* 117-todo@2x.png */; };
+		5B85EC2714F9378700032B9C /* OWListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B85EC2614F9378600032B9C /* OWListController.m */; };
+		5B94C1CF14F89C26008D3F0D /* OWAccountMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B94C1CE14F89C26008D3F0D /* OWAccountMenuController.m */; };
+		5B94C1D314F8A599008D3F0D /* OWTarefaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B94C1D214F8A599008D3F0D /* OWTarefaCell.m */; };
+		5B94C1DE14F8DC9D008D3F0D /* OWIssueUpdateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B94C1DD14F8DC9D008D3F0D /* OWIssueUpdateController.m */; };
 		5BED83B014F5C73600CE4D2D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BED83AF14F5C73600CE4D2D /* UIKit.framework */; };
 		5BED83B214F5C73600CE4D2D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BED83B114F5C73600CE4D2D /* Foundation.framework */; };
 		5BED83B414F5C73600CE4D2D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BED83B314F5C73600CE4D2D /* CoreGraphics.framework */; };
@@ -16,12 +46,13 @@
 		5BED83C314F5C73700CE4D2D /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BED83C114F5C73700CE4D2D /* MainStoryboard_iPhone.storyboard */; };
 		5BED83C614F5C73700CE4D2D /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BED83C414F5C73700CE4D2D /* MainStoryboard_iPad.storyboard */; };
 		5BED83C914F5C73700CE4D2D /* OWMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BED83C814F5C73700CE4D2D /* OWMasterViewController.m */; };
-		5BED83CC14F5C73700CE4D2D /* OWDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BED83CB14F5C73700CE4D2D /* OWDetailViewController.m */; };
+		5BED83CC14F5C73700CE4D2D /* OWTarefasController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BED83CB14F5C73700CE4D2D /* OWTarefasController.m */; };
 		5BED83D414F5C73700CE4D2D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BED83D314F5C73700CE4D2D /* SenTestingKit.framework */; };
 		5BED83D514F5C73700CE4D2D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BED83AF14F5C73600CE4D2D /* UIKit.framework */; };
 		5BED83D614F5C73700CE4D2D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BED83B114F5C73600CE4D2D /* Foundation.framework */; };
 		5BED83DE14F5C73700CE4D2D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BED83DC14F5C73700CE4D2D /* InfoPlist.strings */; };
 		5BED83E114F5C73700CE4D2D /* RedstoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BED83E014F5C73700CE4D2D /* RedstoneTests.m */; };
+		5BFAAC3C14F6BFC600F19608 /* libRedmineKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFAAC3114F6BFC600F19608 /* libRedmineKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,28 +66,91 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B0AAFD914F6C5080082285E /* OWAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWAccountController.h; sourceTree = "<group>"; };
+		5B0AAFDA14F6C5080082285E /* OWAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWAccountController.m; sourceTree = "<group>"; };
+		5B0AB02614F6D1CB0082285E /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		5B0AB02714F6D1CB0082285E /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		5B0AB02814F6D1CB0082285E /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		5B0AB02914F6D1CB0082285E /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		5B0AB02A14F6D1CB0082285E /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		5B0AB02B14F6D1CB0082285E /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		5B0AB02D14F6D1CB0082285E /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		5B0AB02E14F6D1CB0082285E /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		5B0AB02F14F6D1CB0082285E /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		5B0AB03014F6D1CB0082285E /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		5B0AB03114F6D1CB0082285E /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		5B0AB03214F6D1CB0082285E /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		5B0AB03314F6D1CB0082285E /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
+		5B0AB03414F6D1CB0082285E /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		5B0AB03514F6D1CB0082285E /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		5B0AB03614F6D1CB0082285E /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		5B0AB03714F6D1CB0082285E /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		5B0AB03814F6D1CB0082285E /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		5B0AB03914F6D1CB0082285E /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.7.3.dylib; path = usr/lib/libxml2.2.7.3.dylib; sourceTree = SDKROOT; };
+		5B17FDCF14FA17DA00272251 /* OWDatePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWDatePickerController.h; sourceTree = "<group>"; };
+		5B17FDD014FA17DA00272251 /* OWDatePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWDatePickerController.m; sourceTree = "<group>"; };
+		5B1A650014F6B8E400041B4C /* OWProjectsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWProjectsController.h; sourceTree = "<group>"; };
+		5B1A650114F6B8E400041B4C /* OWProjectsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWProjectsController.m; sourceTree = "<group>"; };
+		5B4572E414F89478000FD516 /* 40-inbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "40-inbox.png"; sourceTree = "<group>"; };
+		5B4572E514F89478000FD516 /* 40-inbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "40-inbox@2x.png"; sourceTree = "<group>"; };
+		5B4572E914F8955D000FD516 /* persondot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = persondot.png; sourceTree = "<group>"; };
+		5B4572EA14F8955D000FD516 /* persondot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "persondot@2x.png"; sourceTree = "<group>"; };
+		5B4572F114F895DC000FD516 /* 188-paint-roller.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "188-paint-roller.png"; sourceTree = "<group>"; };
+		5B4572F214F895DC000FD516 /* 188-paint-roller@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "188-paint-roller@2x.png"; sourceTree = "<group>"; };
+		5B58550D14F9B69B00C7E614 /* UINavigationController+RedstoneOverrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+RedstoneOverrides.h"; sourceTree = "<group>"; };
+		5B58550E14F9B69B00C7E614 /* UINavigationController+RedstoneOverrides.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+RedstoneOverrides.m"; sourceTree = "<group>"; };
+		5B5E8A2814FA521000D54B43 /* OWMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWMenuCell.h; sourceTree = "<group>"; };
+		5B5E8A2914FA521000D54B43 /* OWMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWMenuCell.m; sourceTree = "<group>"; };
+		5B5E8A2C14FA59FA00D54B43 /* OWIssueMoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWIssueMoreController.h; sourceTree = "<group>"; };
+		5B5E8A2D14FA59FA00D54B43 /* OWIssueMoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWIssueMoreController.m; sourceTree = "<group>"; };
+		5B6163EC14F6EABA007EF781 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		5B6163ED14F6EABA007EF781 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		5B760C0C14F6E2000040FE13 /* OWProjetoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWProjetoCell.h; sourceTree = "<group>"; };
+		5B760C0D14F6E2000040FE13 /* OWProjetoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWProjetoCell.m; sourceTree = "<group>"; };
+		5B760C1114F6E4460040FE13 /* 117-todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "117-todo.png"; sourceTree = "<group>"; };
+		5B760C1214F6E4460040FE13 /* 117-todo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "117-todo@2x.png"; sourceTree = "<group>"; };
+		5B85EC2514F9378600032B9C /* OWListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWListController.h; sourceTree = "<group>"; };
+		5B85EC2614F9378600032B9C /* OWListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWListController.m; sourceTree = "<group>"; };
+		5B94C1CD14F89C26008D3F0D /* OWAccountMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWAccountMenuController.h; sourceTree = "<group>"; };
+		5B94C1CE14F89C26008D3F0D /* OWAccountMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWAccountMenuController.m; sourceTree = "<group>"; };
+		5B94C1D114F8A599008D3F0D /* OWTarefaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWTarefaCell.h; sourceTree = "<group>"; };
+		5B94C1D214F8A599008D3F0D /* OWTarefaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWTarefaCell.m; sourceTree = "<group>"; };
+		5B94C1DC14F8DC9D008D3F0D /* OWIssueUpdateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWIssueUpdateController.h; sourceTree = "<group>"; };
+		5B94C1DD14F8DC9D008D3F0D /* OWIssueUpdateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWIssueUpdateController.m; sourceTree = "<group>"; };
 		5BED83AB14F5C73600CE4D2D /* Redstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Redstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BED83AF14F5C73600CE4D2D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5BED83B114F5C73600CE4D2D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5BED83B314F5C73600CE4D2D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		5BED83B714F5C73700CE4D2D /* Redstone-Info.plist */ = {isa = PBXFileReference; path = "Redstone-Info.plist"; sourceTree = "<group>"; };
+		5BED83B714F5C73700CE4D2D /* Redstone-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Redstone-Info.plist"; sourceTree = "<group>"; };
 		5BED83B914F5C73700CE4D2D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5BED83BB14F5C73700CE4D2D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5BED83BD14F5C73700CE4D2D /* Redstone-Prefix.pch */ = {isa = PBXFileReference; path = "Redstone-Prefix.pch"; sourceTree = "<group>"; };
-		5BED83BE14F5C73700CE4D2D /* OWAppDelegate.h */ = {isa = PBXFileReference; path = OWAppDelegate.h; sourceTree = "<group>"; };
+		5BED83BD14F5C73700CE4D2D /* Redstone-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Redstone-Prefix.pch"; sourceTree = "<group>"; };
+		5BED83BE14F5C73700CE4D2D /* OWAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OWAppDelegate.h; sourceTree = "<group>"; };
 		5BED83BF14F5C73700CE4D2D /* OWAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OWAppDelegate.m; sourceTree = "<group>"; };
 		5BED83C214F5C73700CE4D2D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		5BED83C514F5C73700CE4D2D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		5BED83C714F5C73700CE4D2D /* OWMasterViewController.h */ = {isa = PBXFileReference; path = OWMasterViewController.h; sourceTree = "<group>"; };
+		5BED83C714F5C73700CE4D2D /* OWMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OWMasterViewController.h; sourceTree = "<group>"; };
 		5BED83C814F5C73700CE4D2D /* OWMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OWMasterViewController.m; sourceTree = "<group>"; };
-		5BED83CA14F5C73700CE4D2D /* OWDetailViewController.h */ = {isa = PBXFileReference; path = OWDetailViewController.h; sourceTree = "<group>"; };
-		5BED83CB14F5C73700CE4D2D /* OWDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OWDetailViewController.m; sourceTree = "<group>"; };
+		5BED83CA14F5C73700CE4D2D /* OWTarefasController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OWTarefasController.h; sourceTree = "<group>"; };
+		5BED83CB14F5C73700CE4D2D /* OWTarefasController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OWTarefasController.m; sourceTree = "<group>"; };
 		5BED83D214F5C73700CE4D2D /* RedstoneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RedstoneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BED83D314F5C73700CE4D2D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		5BED83DB14F5C73700CE4D2D /* RedstoneTests-Info.plist */ = {isa = PBXFileReference; path = "RedstoneTests-Info.plist"; sourceTree = "<group>"; };
+		5BED83DB14F5C73700CE4D2D /* RedstoneTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RedstoneTests-Info.plist"; sourceTree = "<group>"; };
 		5BED83DD14F5C73700CE4D2D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5BED83DF14F5C73700CE4D2D /* RedstoneTests.h */ = {isa = PBXFileReference; path = RedstoneTests.h; sourceTree = "<group>"; };
+		5BED83DF14F5C73700CE4D2D /* RedstoneTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RedstoneTests.h; sourceTree = "<group>"; };
 		5BED83E014F5C73700CE4D2D /* RedstoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RedstoneTests.m; sourceTree = "<group>"; };
+		5BFAAC3114F6BFC600F19608 /* libRedmineKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRedmineKit.a; sourceTree = "<group>"; };
+		5BFAAC3214F6BFC600F19608 /* RedmineKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedmineKit.h; sourceTree = "<group>"; };
+		5BFAAC3314F6BFC600F19608 /* RKIssue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKIssue.h; sourceTree = "<group>"; };
+		5BFAAC3414F6BFC600F19608 /* RKIssueOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKIssueOptions.h; sourceTree = "<group>"; };
+		5BFAAC3514F6BFC600F19608 /* RKJournal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKJournal.h; sourceTree = "<group>"; };
+		5BFAAC3614F6BFC600F19608 /* RKJournalDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKJournalDetail.h; sourceTree = "<group>"; };
+		5BFAAC3714F6BFC600F19608 /* RKParseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKParseHelper.h; sourceTree = "<group>"; };
+		5BFAAC3814F6BFC600F19608 /* RKProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKProject.h; sourceTree = "<group>"; };
+		5BFAAC3914F6BFC600F19608 /* RKRedmine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKRedmine.h; sourceTree = "<group>"; };
+		5BFAAC3A14F6BFC600F19608 /* RKTimeEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKTimeEntry.h; sourceTree = "<group>"; };
+		5BFAAC3B14F6BFC600F19608 /* RKValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKValue.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +158,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B0AB04814F6D2890082285E /* libxml2.2.7.3.dylib in Frameworks */,
 				5BED83B014F5C73600CE4D2D /* UIKit.framework in Frameworks */,
 				5BED83B214F5C73600CE4D2D /* Foundation.framework in Frameworks */,
 				5BED83B414F5C73600CE4D2D /* CoreGraphics.framework in Frameworks */,
+				5BFAAC3C14F6BFC600F19608 /* libRedmineKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +179,80 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B0AB02414F6D1CB0082285E /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				5B0AB02514F6D1CB0082285E /* Hpple */,
+				5B0AB02C14F6D1CB0082285E /* JSON */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		5B0AB02514F6D1CB0082285E /* Hpple */ = {
+			isa = PBXGroup;
+			children = (
+				5B0AB02614F6D1CB0082285E /* TFHpple.h */,
+				5B0AB02714F6D1CB0082285E /* TFHpple.m */,
+				5B0AB02814F6D1CB0082285E /* TFHppleElement.h */,
+				5B0AB02914F6D1CB0082285E /* TFHppleElement.m */,
+				5B0AB02A14F6D1CB0082285E /* XPathQuery.h */,
+				5B0AB02B14F6D1CB0082285E /* XPathQuery.m */,
+			);
+			path = Hpple;
+			sourceTree = "<group>";
+		};
+		5B0AB02C14F6D1CB0082285E /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				5B0AB02D14F6D1CB0082285E /* JSON.h */,
+				5B0AB02E14F6D1CB0082285E /* NSObject+SBJSON.h */,
+				5B0AB02F14F6D1CB0082285E /* NSObject+SBJSON.m */,
+				5B0AB03014F6D1CB0082285E /* NSString+SBJSON.h */,
+				5B0AB03114F6D1CB0082285E /* NSString+SBJSON.m */,
+				5B0AB03214F6D1CB0082285E /* SBJSON.h */,
+				5B0AB03314F6D1CB0082285E /* SBJSON.m */,
+				5B0AB03414F6D1CB0082285E /* SBJsonBase.h */,
+				5B0AB03514F6D1CB0082285E /* SBJsonBase.m */,
+				5B0AB03614F6D1CB0082285E /* SBJsonParser.h */,
+				5B0AB03714F6D1CB0082285E /* SBJsonParser.m */,
+				5B0AB03814F6D1CB0082285E /* SBJsonWriter.h */,
+				5B0AB03914F6D1CB0082285E /* SBJsonWriter.m */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		5B6163E914F6EAB1007EF781 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				5B6163EB14F6EABA007EF781 /* MBProgressHUD */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		5B6163EB14F6EABA007EF781 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				5B6163EC14F6EABA007EF781 /* MBProgressHUD.h */,
+				5B6163ED14F6EABA007EF781 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		5B760C1014F6E4080040FE13 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				5B760C1114F6E4460040FE13 /* 117-todo.png */,
+				5B760C1214F6E4460040FE13 /* 117-todo@2x.png */,
+				5B4572E414F89478000FD516 /* 40-inbox.png */,
+				5B4572E514F89478000FD516 /* 40-inbox@2x.png */,
+				5B4572E914F8955D000FD516 /* persondot.png */,
+				5B4572EA14F8955D000FD516 /* persondot@2x.png */,
+				5B4572F114F895DC000FD516 /* 188-paint-roller.png */,
+				5B4572F214F895DC000FD516 /* 188-paint-roller@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		5BED83A014F5C73600CE4D2D = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +275,7 @@
 		5BED83AE14F5C73600CE4D2D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */,
 				5BED83AF14F5C73600CE4D2D /* UIKit.framework */,
 				5BED83B114F5C73600CE4D2D /* Foundation.framework */,
 				5BED83B314F5C73600CE4D2D /* CoreGraphics.framework */,
@@ -116,15 +287,40 @@
 		5BED83B514F5C73600CE4D2D /* Redstone */ = {
 			isa = PBXGroup;
 			children = (
+				5B6163E914F6EAB1007EF781 /* Dependencies */,
+				5B760C1014F6E4080040FE13 /* Images */,
+				5BFAAC3014F6BFC600F19608 /* RedmineKit */,
 				5BED83BE14F5C73700CE4D2D /* OWAppDelegate.h */,
 				5BED83BF14F5C73700CE4D2D /* OWAppDelegate.m */,
 				5BED83C114F5C73700CE4D2D /* MainStoryboard_iPhone.storyboard */,
 				5BED83C414F5C73700CE4D2D /* MainStoryboard_iPad.storyboard */,
 				5BED83C714F5C73700CE4D2D /* OWMasterViewController.h */,
 				5BED83C814F5C73700CE4D2D /* OWMasterViewController.m */,
-				5BED83CA14F5C73700CE4D2D /* OWDetailViewController.h */,
-				5BED83CB14F5C73700CE4D2D /* OWDetailViewController.m */,
+				5B17FDCF14FA17DA00272251 /* OWDatePickerController.h */,
+				5B17FDD014FA17DA00272251 /* OWDatePickerController.m */,
+				5BED83CA14F5C73700CE4D2D /* OWTarefasController.h */,
+				5BED83CB14F5C73700CE4D2D /* OWTarefasController.m */,
 				5BED83B614F5C73700CE4D2D /* Supporting Files */,
+				5B1A650014F6B8E400041B4C /* OWProjectsController.h */,
+				5B1A650114F6B8E400041B4C /* OWProjectsController.m */,
+				5B0AAFD914F6C5080082285E /* OWAccountController.h */,
+				5B0AAFDA14F6C5080082285E /* OWAccountController.m */,
+				5B760C0C14F6E2000040FE13 /* OWProjetoCell.h */,
+				5B760C0D14F6E2000040FE13 /* OWProjetoCell.m */,
+				5B94C1CD14F89C26008D3F0D /* OWAccountMenuController.h */,
+				5B94C1CE14F89C26008D3F0D /* OWAccountMenuController.m */,
+				5B94C1D114F8A599008D3F0D /* OWTarefaCell.h */,
+				5B94C1D214F8A599008D3F0D /* OWTarefaCell.m */,
+				5B94C1DC14F8DC9D008D3F0D /* OWIssueUpdateController.h */,
+				5B94C1DD14F8DC9D008D3F0D /* OWIssueUpdateController.m */,
+				5B85EC2514F9378600032B9C /* OWListController.h */,
+				5B85EC2614F9378600032B9C /* OWListController.m */,
+				5B58550D14F9B69B00C7E614 /* UINavigationController+RedstoneOverrides.h */,
+				5B58550E14F9B69B00C7E614 /* UINavigationController+RedstoneOverrides.m */,
+				5B5E8A2814FA521000D54B43 /* OWMenuCell.h */,
+				5B5E8A2914FA521000D54B43 /* OWMenuCell.m */,
+				5B5E8A2C14FA59FA00D54B43 /* OWIssueMoreController.h */,
+				5B5E8A2D14FA59FA00D54B43 /* OWIssueMoreController.m */,
 			);
 			path = Redstone;
 			sourceTree = "<group>";
@@ -157,6 +353,25 @@
 				5BED83DC14F5C73700CE4D2D /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5BFAAC3014F6BFC600F19608 /* RedmineKit */ = {
+			isa = PBXGroup;
+			children = (
+				5B0AB02414F6D1CB0082285E /* Dependencies */,
+				5BFAAC3114F6BFC600F19608 /* libRedmineKit.a */,
+				5BFAAC3214F6BFC600F19608 /* RedmineKit.h */,
+				5BFAAC3314F6BFC600F19608 /* RKIssue.h */,
+				5BFAAC3414F6BFC600F19608 /* RKIssueOptions.h */,
+				5BFAAC3514F6BFC600F19608 /* RKJournal.h */,
+				5BFAAC3614F6BFC600F19608 /* RKJournalDetail.h */,
+				5BFAAC3714F6BFC600F19608 /* RKParseHelper.h */,
+				5BFAAC3814F6BFC600F19608 /* RKProject.h */,
+				5BFAAC3914F6BFC600F19608 /* RKRedmine.h */,
+				5BFAAC3A14F6BFC600F19608 /* RKTimeEntry.h */,
+				5BFAAC3B14F6BFC600F19608 /* RKValue.h */,
+			);
+			path = RedmineKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +449,14 @@
 				5BED83BA14F5C73700CE4D2D /* InfoPlist.strings in Resources */,
 				5BED83C314F5C73700CE4D2D /* MainStoryboard_iPhone.storyboard in Resources */,
 				5BED83C614F5C73700CE4D2D /* MainStoryboard_iPad.storyboard in Resources */,
+				5B760C1314F6E4460040FE13 /* 117-todo.png in Resources */,
+				5B760C1414F6E4460040FE13 /* 117-todo@2x.png in Resources */,
+				5B4572E614F89478000FD516 /* 40-inbox.png in Resources */,
+				5B4572E714F89478000FD516 /* 40-inbox@2x.png in Resources */,
+				5B4572EB14F8955D000FD516 /* persondot.png in Resources */,
+				5B4572EC14F8955D000FD516 /* persondot@2x.png in Resources */,
+				5B4572F314F895DC000FD516 /* 188-paint-roller.png in Resources */,
+				5B4572F414F895DC000FD516 /* 188-paint-roller@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +494,28 @@
 				5BED83BC14F5C73700CE4D2D /* main.m in Sources */,
 				5BED83C014F5C73700CE4D2D /* OWAppDelegate.m in Sources */,
 				5BED83C914F5C73700CE4D2D /* OWMasterViewController.m in Sources */,
-				5BED83CC14F5C73700CE4D2D /* OWDetailViewController.m in Sources */,
+				5BED83CC14F5C73700CE4D2D /* OWTarefasController.m in Sources */,
+				5B1A650214F6B8E400041B4C /* OWProjectsController.m in Sources */,
+				5B0AAFDB14F6C5080082285E /* OWAccountController.m in Sources */,
+				5B0AB03A14F6D1CB0082285E /* TFHpple.m in Sources */,
+				5B0AB03B14F6D1CB0082285E /* TFHppleElement.m in Sources */,
+				5B0AB03C14F6D1CB0082285E /* XPathQuery.m in Sources */,
+				5B0AB03D14F6D1CB0082285E /* NSObject+SBJSON.m in Sources */,
+				5B0AB03E14F6D1CB0082285E /* NSString+SBJSON.m in Sources */,
+				5B0AB03F14F6D1CB0082285E /* SBJSON.m in Sources */,
+				5B0AB04014F6D1CB0082285E /* SBJsonBase.m in Sources */,
+				5B0AB04114F6D1CB0082285E /* SBJsonParser.m in Sources */,
+				5B0AB04214F6D1CB0082285E /* SBJsonWriter.m in Sources */,
+				5B760C0E14F6E2000040FE13 /* OWProjetoCell.m in Sources */,
+				5B6163EE14F6EABA007EF781 /* MBProgressHUD.m in Sources */,
+				5B94C1CF14F89C26008D3F0D /* OWAccountMenuController.m in Sources */,
+				5B94C1D314F8A599008D3F0D /* OWTarefaCell.m in Sources */,
+				5B94C1DE14F8DC9D008D3F0D /* OWIssueUpdateController.m in Sources */,
+				5B85EC2714F9378700032B9C /* OWListController.m in Sources */,
+				5B58550F14F9B69B00C7E614 /* UINavigationController+RedstoneOverrides.m in Sources */,
+				5B17FDD114FA17DA00272251 /* OWDatePickerController.m in Sources */,
+				5B5E8A2A14FA521000D54B43 /* OWMenuCell.m in Sources */,
+				5B5E8A2E14FA59FA00D54B43 /* OWIssueMoreController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +625,12 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Redstone/Redstone-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$SDK_DIR/usr/include/libxml2/**";
 				INFOPLIST_FILE = "Redstone/Redstone-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Redstone/RedmineKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -392,7 +641,12 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Redstone/Redstone-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$SDK_DIR/usr/include/libxml2/**";
 				INFOPLIST_FILE = "Redstone/Redstone-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Redstone/RedmineKit\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -451,6 +705,7 @@
 				5BED83E614F5C73700CE4D2D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5BED83E714F5C73700CE4D2D /* Build configuration list for PBXNativeTarget "RedstoneTests" */ = {
 			isa = XCConfigurationList;
@@ -459,6 +714,7 @@
 				5BED83E914F5C73700CE4D2D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OWAccountController.h"
 
-@class OWDetailViewController;
+@class OWTarefasController;
 
-@interface OWMasterViewController : UITableViewController
+@interface OWMasterViewController : UITableViewController <OWAccountDelegate>
 
-@property (strong, nonatomic) OWDetailViewController *detailViewController;
+@property (strong, nonatomic) OWTarefasController *tarefasController;
+
+- (void)accountControllerDidSaveAccount:(OWAccountController *)accountController;
 
 @end

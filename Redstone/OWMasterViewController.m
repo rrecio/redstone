@@ -8,16 +8,19 @@
 
 #import "OWMasterViewController.h"
 
-#import "OWDetailViewController.h"
+#import "OWTarefasController.h"
+
+#import "RedmineKit.h"
+#import "OWAccountMenuController.h"
 
 @interface OWMasterViewController () {
-    NSMutableArray *_objects;
+    NSMutableArray *_accounts;
 }
 @end
 
 @implementation OWMasterViewController
 
-@synthesize detailViewController = _detailViewController;
+@synthesize tarefasController = _tarefasController;
 
 - (void)awakeFromNib
 {
@@ -34,9 +37,23 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    self.detailViewController = (OWDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    UITabBarController *tab = (UITabBarController *)[self.splitViewController.viewControllers lastObject];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+    self.tarefasController = [storyboard instantiateViewControllerWithIdentifier:@"IssuesList"];
+    UINavigationController *nav = (UINavigationController *)[tab selectedViewController];
+    [nav pushViewController:_tarefasController animated:NO];
+    
+    // Load accounts
+    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:@"Accounts"];
+    if (dataRepresentingSavedArray != nil)
+    {
+        NSArray *oldSavedArray = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
+        if (oldSavedArray != nil)
+            _accounts = [[NSMutableArray alloc] initWithArray:oldSavedArray];
+        else
+            _accounts = [[NSMutableArray alloc] init];
+    }
 }
 
 - (void)viewDidUnload
@@ -54,16 +71,6 @@
     }
 }
 
-- (void)insertNewObject:(id)sender
-{
-    if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
-    }
-    [_objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -73,16 +80,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    return _accounts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 
-    NSDate *object = [_objects objectAtIndex:indexPath.row];
-    cell.textLabel.text = [object description];
+    RKRedmine *account = [_accounts objectAtIndex:indexPath.row];
+    cell.textLabel.text = account.username;
+    cell.detailTextLabel.text = account.serverAddress;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,7 +107,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_objects removeObjectAtIndex:indexPath.row];
+        [_accounts removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -117,21 +130,25 @@
 }
 */
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSDate *object = [_objects objectAtIndex:indexPath.row];
-        self.detailViewController.detailItem = object;
+    if ([[segue identifier] isEqualToString:@"ShowAccountMenu"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        RKRedmine *account = [_accounts objectAtIndex:indexPath.row];
+        [(OWAccountMenuController *)[segue destinationViewController] setAccount:account];
+    }
+    if ([[segue identifier] isEqualToString:@"AddAccount"]) {
+        UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
+        [(OWAccountController *)navController.topViewController setDelegate:self];
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)accountControllerDidSaveAccount:(RKRedmine *)account
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = [_objects objectAtIndex:indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
-    }
+    [_accounts addObject:account];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_accounts] forKey:@"Accounts"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.tableView reloadData];
 }
 
 @end
