@@ -16,7 +16,7 @@
 #import "RKValue.h"
 #import "RKIssueOptions.h"
 
-@interface RKRedmine : NSObject <NSCoding>
+@interface RKRedmine : NSObject <NSCoding, NSCopying>
 {
     NSMutableArray *_projects;
     NSUInteger projectPage;
@@ -24,10 +24,10 @@
     NSUInteger pageOffset;
 }
 
-@property (nonatomic) NSString *username;
-@property (nonatomic) NSString *password;
-@property (nonatomic) NSString *apiKey;
-@property (nonatomic) NSString *serverAddress;
+@property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic) NSString *password;
+@property (strong, nonatomic) NSString *apiKey;
+@property (strong, nonatomic) NSString *serverAddress;
 
 - (void)login;
 /**

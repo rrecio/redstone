@@ -37,7 +37,7 @@ static NSString * const TFHppleNodeAttributeArrayKey    = @"nodeAttributeArray";
 static NSString * const TFHppleNodeAttributeNameKey     = @"attributeName";
 
 @interface TFHppleElement ()
-@property (weak, nonatomic, readwrite) TFHppleElement *parent;
+@property (nonatomic, readwrite) TFHppleElement *parent;
 @end
 
 @implementation TFHppleElement

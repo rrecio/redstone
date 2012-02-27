@@ -12,28 +12,28 @@
 @class RKIssueOptions;
 @class RKProject;
 @class RKTimeEntry;
-@interface RKIssue : NSObject
+@interface RKIssue : NSObject <NSCopying>
 
-@property (nonatomic) RKValue *status;
-@property (nonatomic) RKValue *author;
-@property (nonatomic) NSNumber *doneRatio;
-@property (nonatomic) RKValue *assignedTo;
-@property (nonatomic) RKValue *fixedVersion;
-@property (nonatomic) NSDate *createdOn;
-@property (nonatomic) NSString *subject;
-@property (nonatomic) NSDate *updatedOn;
-@property (nonatomic) NSNumber *spentHours;
-@property (nonatomic) NSNumber *estimatedHours;
-@property (nonatomic) RKValue *tracker;
-@property (nonatomic) NSNumber *index;
-@property (nonatomic) NSDate *startDate;
-@property (nonatomic) NSDate *dueDate;
-@property (nonatomic) RKValue *priority;
-@property (nonatomic) RKProject *project;
-@property (nonatomic) NSString *issueDescription;
-@property (nonatomic) NSMutableArray *journals;
-@property (nonatomic) NSNumber *parentTask;
-@property (nonatomic) RKValue *category;
+@property (strong, nonatomic) RKValue *status;
+@property (strong, nonatomic) RKValue *author;
+@property (strong, nonatomic) NSNumber *doneRatio;
+@property (strong, nonatomic) RKValue *assignedTo;
+@property (strong, nonatomic) RKValue *fixedVersion;
+@property (strong, nonatomic) NSDate *createdOn;
+@property (strong, nonatomic) NSString *subject;
+@property (strong, nonatomic) NSDate *updatedOn;
+@property (strong, nonatomic) NSNumber *spentHours;
+@property (strong, nonatomic) NSNumber *estimatedHours;
+@property (strong, nonatomic) RKValue *tracker;
+@property (strong, nonatomic) NSNumber *index;
+@property (strong, nonatomic) NSDate *startDate;
+@property (strong, nonatomic) NSDate *dueDate;
+@property (strong, nonatomic) RKValue *priority;
+@property (strong, nonatomic) RKProject *project;
+@property (strong, nonatomic) NSString *issueDescription;
+@property (strong, nonatomic) NSMutableArray *journals;
+@property (strong, nonatomic) NSNumber *parentTask;
+@property (strong, nonatomic) RKValue *category;
 //@property (nonatomic, retain) Value *activity;
 
 + (RKIssue *)issueForIssueDict:(NSDictionary *)issueDict;

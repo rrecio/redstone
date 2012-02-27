@@ -1,17 +1,21 @@
 //
-//  OWAccountController.m
+//  OWAddAccountController.m
 //  Redstone
 //
 //  Created by Rodrigo Recio on 23/02/12.
 //  Copyright (c) 2012 Owera Software. All rights reserved.
 //
 
-#import "OWAccountController.h"
+#import "OWAddAccountController.h"
+#import "MBProgressHUD.h"
 
-@interface OWAccountController ()
+@interface OWAddAccountController ()
+{
+    RKRedmine *_newAccount;
+}
 @end
 
-@implementation OWAccountController
+@implementation OWAddAccountController
 
 @synthesize serverField;
 @synthesize userField;
@@ -58,12 +62,29 @@
 
 - (IBAction)doneAction:(id)sender
 {
-    RKRedmine *newAccount = [[RKRedmine alloc] init];
-    newAccount.username = userField.text;
-    newAccount.password = passField.text;
-    newAccount.serverAddress = serverField.text;
+    _newAccount = [[RKRedmine alloc] init];
+    _newAccount.username = userField.text;
+    _newAccount.password = passField.text;
+    _newAccount.serverAddress = serverField.text;
     
-    [self.delegate accountControllerDidSaveAccount:newAccount];
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    hud.labelText = NSLocalizedString(@"Logging in...", nil);
+    [self.view addSubview:hud];
+    [hud show:YES];
+    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(login:) object:hud];
+    [[NSOperationQueue mainQueue] addOperation:op];
+}
+
+- (void)login:(MBProgressHUD *)hud
+{
+    [_newAccount login];
+    [self performSelectorOnMainThread:@selector(finishedLogin:) withObject:hud waitUntilDone:YES];
+}
+
+- (void)finishedLogin:(MBProgressHUD *)hud
+{
+    [hud hide:YES];
+    [self.delegate accountControllerDidSaveAccount:_newAccount];
     [self dismissModalViewControllerAnimated:YES];
 }
 

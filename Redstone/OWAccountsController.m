@@ -1,24 +1,24 @@
 //
-//  OWMasterViewController.m
+//  OWAccountsController.m
 //  Redstone
 //
 //  Created by Rodrigo Recio on 22/02/12.
 //  Copyright (c) 2012 Owera Software. All rights reserved.
 //
 
-#import "OWMasterViewController.h"
+#import "OWAccountsController.h"
 
 #import "OWTarefasController.h"
 
 #import "RedmineKit.h"
 #import "OWAccountMenuController.h"
 
-@interface OWMasterViewController () {
+@interface OWAccountsController () {
     NSMutableArray *_accounts;
 }
 @end
 
-@implementation OWMasterViewController
+@implementation OWAccountsController
 
 @synthesize tarefasController = _tarefasController;
 
@@ -139,13 +139,14 @@
     }
     if ([[segue identifier] isEqualToString:@"AddAccount"]) {
         UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
-        [(OWAccountController *)navController.topViewController setDelegate:self];
+        [(OWAddAccountController *)navController.topViewController setDelegate:self];
     }
 }
 
 - (void)accountControllerDidSaveAccount:(RKRedmine *)account
 {
     [_accounts addObject:account];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_accounts] forKey:@"Accounts"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self.tableView reloadData];

@@ -62,8 +62,6 @@
         NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(fetchUpdateOptions:) object:hud];
         [[NSOperationQueue mainQueue] addOperation:op];
     }
-    
-    self.navigationItem.prompt = [NSString stringWithFormat:@"%@ #%@: %@", issue.tracker.name, issue.index, issue.subject];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -246,6 +244,7 @@
 - (NSString *)stringValueForIndex:(NSIndexPath *)indexPath
 {
     NSString *stringValue = nil;
+
     if (indexPath.section == 1) {
         switch (indexPath.row) {
             case 0:
@@ -393,7 +392,11 @@
 {
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    cell.detailTextLabel.text = [self stringValueForIndex:indexPath];
+    if (indexPath.section == 0) {
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ #%@: %@", issue.tracker.name, issue.index, issue.subject];
+    } else {
+        cell.detailTextLabel.text = [self stringValueForIndex:indexPath];
+    }
 
     return cell;
 }

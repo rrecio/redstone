@@ -1,5 +1,5 @@
 //
-//  OWAccountController.h
+//  OWAddAccountController.h
 //  Redstone
 //
 //  Created by Rodrigo Recio on 23/02/12.
@@ -9,20 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "RedmineKit.h"
 
-@protocol OWAccountDelegate;
+@protocol OWAddAccountDelegate;
 
-@interface OWAccountController : UITableViewController
+@interface OWAddAccountController : UITableViewController
 
 @property (strong, nonatomic) IBOutlet UITextField *serverField;
 @property (strong, nonatomic) IBOutlet UITextField *userField;
 @property (strong, nonatomic) IBOutlet UITextField *passField;
-@property (strong, nonatomic) id<OWAccountDelegate> delegate;
+@property (strong, nonatomic) id<OWAddAccountDelegate> delegate;
 
 - (IBAction)doneAction:(id)sender;
 - (IBAction)cancelAction:(id)sender;
 
 @end
 
-@protocol OWAccountDelegate <NSObject>
+@protocol OWAddAccountDelegate <NSObject>
 - (void)accountControllerDidSaveAccount:(RKRedmine *)account;
 @end

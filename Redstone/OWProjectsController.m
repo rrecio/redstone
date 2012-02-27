@@ -7,7 +7,7 @@
 //
 
 #import "OWProjectsController.h"
-#import "OWMasterViewController.h"
+#import "OWAccountsController.h"
 #import "OWTarefasController.h"
 #import "MBProgressHUD.h"
 
@@ -20,12 +20,14 @@
 {
     [super viewDidAppear:animated];
     
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-    hud.labelText = @"Loading projects...";
-    [self.view addSubview:hud];
-    [hud show:YES];
-    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(fetchProjects:) object:hud];
-    [[NSOperationQueue mainQueue] addOperation:op];
+    if (!_projects) {
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+        hud.labelText = @"Loading projects...";
+        [self.view addSubview:hud];
+        [hud show:YES];
+        NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(fetchProjects:) object:hud];
+        [[NSOperationQueue mainQueue] addOperation:op];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

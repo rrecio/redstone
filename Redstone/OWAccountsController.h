@@ -1,5 +1,5 @@
 //
-//  OWMasterViewController.h
+//  OWAccountsController.h
 //  Redstone
 //
 //  Created by Rodrigo Recio on 22/02/12.
@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OWAccountController.h"
+#import "OWAddAccountController.h"
 
 @class OWTarefasController;
 
-@interface OWMasterViewController : UITableViewController <OWAccountDelegate>
+@interface OWAccountsController : UITableViewController <OWAddAccountDelegate>
 
 @property (strong, nonatomic) OWTarefasController *tarefasController;
 
-- (void)accountControllerDidSaveAccount:(OWAccountController *)accountController;
+- (void)accountControllerDidSaveAccount:(OWAddAccountController *)accountController;
 
 @end
