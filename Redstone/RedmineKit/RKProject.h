@@ -73,4 +73,6 @@ typedef enum {
  */
 - (RKIssueOptions *)newIssueOptions;
 
+- (NSDictionary *)projectDict;
+
 @end

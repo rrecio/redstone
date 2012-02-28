@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "OWAddAccountController.h"
 
-@class OWTarefasController;
+@class OWIssuesController;
 
 @interface OWAccountsController : UITableViewController <OWAddAccountDelegate>
 
-@property (strong, nonatomic) OWTarefasController *tarefasController;
+@property (strong, nonatomic) OWIssuesController *tarefasController;
 
 - (void)accountControllerDidSaveAccount:(OWAddAccountController *)accountController;
 

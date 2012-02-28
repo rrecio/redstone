@@ -65,7 +65,6 @@
     NSURL *url                  = [NSURL URLWithString:urlString];
     NSError *error              = nil;
     NSString *responseString    = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
-    NSLog(@"Loading journals from %@. Response: \n%@", urlString, responseString);
     _journals                   = [[NSMutableArray alloc] init];
     if (!error) {
         NSDictionary *jsonDict  = [responseString JSONValue];
@@ -101,11 +100,22 @@
 
 - (RKIssueOptions *)updateOptions;
 {
-    RKIssueOptions *options = [[RKIssueOptions alloc] init];
+    if (!self.project.redmine.loggedIn) [self.project.redmine login];
     
-    NSString *urlString     = [NSString stringWithFormat:@"%@/issues/%@?key=%@", self.project.redmine.serverAddress, self.index, self.project.redmine.apiKey];
-    NSURL *url              = [NSURL URLWithString:urlString];
-    NSData  *data           = [NSData dataWithContentsOfURL:url];
+    RKIssueOptions *options         = [[RKIssueOptions alloc] init];
+    NSString *urlString             = [NSString stringWithFormat:@"%@/issues/%@?key=%@", 
+                                       self.project.redmine.serverAddress, 
+                                       self.index, 
+                                       self.project.redmine.apiKey];
+    NSURL *url                      = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request    = [[NSMutableURLRequest alloc] initWithURL:url];
+    NSError *error                  = nil;
+    NSData *data                    = [NSURLConnection sendSynchronousRequest:request 
+                                                            returningResponse:nil 
+                                                                        error:&error];
+    NSString *responseString = [[NSString alloc] initWithData:data 
+                                                     encoding:NSUTF8StringEncoding];
+    NSLog(@"Update Options response string: %@", responseString);
     TFHpple *doc            = [[TFHpple alloc] initWithHTMLData:data];
     
     options.trackers    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_tracker_id']/option"];
@@ -115,8 +125,7 @@
     options.versions    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_fixed_version_id']/option"];
     options.assignableUsers = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_assigned_to_id']/option"];
     options.activities  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='time_entry_activity_id']/option"];
-    
-    
+
     return options;
 }
 
@@ -127,10 +136,8 @@
     [jsonDict setObject:issueDict forKey:@"issue"];
     NSString *jsonString = [jsonDict JSONRepresentation];
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"updating issue from project %@ and redmine %@", self.project, self.project.redmine);
     NSString *urlString = [NSString stringWithFormat:@"%@/issues/%@.json?key=%@", self.project.redmine.serverAddress, self.index, self.project.redmine.apiKey];
     NSURL *url          = [NSURL URLWithString:urlString];
-    NSLog(@"[PUT] %@: \n%@", urlString, jsonString);
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"PUT"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -143,7 +150,6 @@
         NSLog(@"%d: Error updating issue: %@\n%@", [response statusCode], [error localizedDescription], responseString);
         return NO;
     } else {
-        NSLog(@"Issue %@ successfully updated. Response:\n%@", self.index, responseString);
         return YES;
     }
 }
@@ -165,7 +171,6 @@
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *urlString = [NSString stringWithFormat:@"%@/time_entries.json?key=%@", self.project.redmine.serverAddress, self.project.redmine.apiKey];
     NSURL *url          = [NSURL URLWithString:urlString];
-    NSLog(@"[POST] %@: \n%@", urlString, jsonString);
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -178,7 +183,6 @@
         NSLog(@"%d: Error posting time entry: %@\n%@", [response statusCode], [error localizedDescription], responseString);
         return NO;
     } else {
-        NSLog(@"Time entry successfully posted. Response:\n%@", responseString);
         return YES;
     }
 }

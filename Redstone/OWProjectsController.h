@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "RedmineKit.h"
+#import "OWAddProjectController.h"
 
-@interface OWProjectsController : UITableViewController;
+@interface OWProjectsController : UITableViewController <OWAddProjectDelegate>;
 
 @property (strong, nonatomic) RKRedmine *account;
 @property (strong, nonatomic) NSArray *projects;

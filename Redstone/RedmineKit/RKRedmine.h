@@ -28,6 +28,7 @@
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *apiKey;
 @property (strong, nonatomic) NSString *serverAddress;
+@property BOOL loggedIn;
 
 - (void)login;
 /**
@@ -60,5 +61,7 @@
  * method used to figure out if all projects were already loaded;
  */
 - (BOOL)isLastPage;
+
+- (BOOL)postNewProject:(RKProject *)project;
 
 @end

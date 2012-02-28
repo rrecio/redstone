@@ -14,6 +14,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // TestFlight take off :D
+    [TestFlight takeOff:@"22821bff1c1f5400845c2a819d3ec9dc_MjE2MDIyMDExLTA3LTIyIDEzOjQyOjE2LjAzNDM1NQ"];
+    
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;

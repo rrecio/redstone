@@ -13,12 +13,6 @@
 #import "OWIssueMoreController.h"
 
 @interface OWIssueUpdateController ()
-{
-    RKIssueOptions *updateOptions;
-    RKTimeEntry *timeEntry;
-    NSArray *doneRatioValues;
-}
-- (NSString *)stringValueForIndex:(NSIndexPath *)indexPath;
 @end
 
 @implementation OWIssueUpdateController
@@ -26,6 +20,10 @@
 @synthesize issue;
 @synthesize notesTextView, commentsTextField;
 @synthesize delegate;
+@synthesize issueOptions;
+@synthesize timeEntry;
+@synthesize doneRatioValues;
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 //    return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -36,8 +34,8 @@
 {
     [super viewDidLoad];
     
-    timeEntry = [[RKTimeEntry alloc] init];
-    doneRatioValues = [[NSArray alloc] initWithObjects:[RKValue valueWithName:@"0 %" andIndex:[NSNumber numberWithInt:0]],
+    self.timeEntry = [[RKTimeEntry alloc] init];
+    self.doneRatioValues = [[NSArray alloc] initWithObjects:[RKValue valueWithName:@"0 %" andIndex:[NSNumber numberWithInt:0]],
                        [RKValue valueWithName:@"10 %" andIndex:[NSNumber numberWithInt:10]],
                        [RKValue valueWithName:@"20 %" andIndex:[NSNumber numberWithInt:20]],
                        [RKValue valueWithName:@"30 %" andIndex:[NSNumber numberWithInt:30]],
@@ -52,11 +50,13 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [TestFlight passCheckpoint:@"Issue Update"];
+    
     [super viewDidAppear:animated];
     
-    if (!updateOptions) {
+    if (!issueOptions) {
         MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-        hud.labelText = @"Loading update options...";
+        hud.labelText = @"Loading issue options...";
         [self.view addSubview:hud];
         [hud show:YES];
         NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(fetchUpdateOptions:) object:hud];
@@ -66,12 +66,18 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([segue identifier]) {
+        [TestFlight passCheckpoint:[@"Issue Update: " stringByAppendingString:[segue identifier]]];
+    } else {
+        NSLog(@"Issue Update: prepared for a segue without an identifier");
+    }
+    
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     if (indexPath.section == 0) {
         OWIssueMoreController *moreController = [segue destinationViewController];
-        moreController.updateOptions = updateOptions;
+        moreController.updateOptions = issueOptions;
         moreController.issue = issue;
-    } 
+    }
     if (indexPath.section == 1) {
         UIStoryboardPopoverSegue *popSegue = (UIStoryboardPopoverSegue *)segue;
         if ([[segue destinationViewController] isKindOfClass:[OWListController class]]) {
@@ -82,32 +88,32 @@
             listController.delegate = self;
             
             if ([[segue identifier] isEqualToString:@"ShowStatusList"]) {
-                listController.list = updateOptions.statuses;
-                [listController.picker selectRow:[updateOptions.statuses indexOfObject:issue.status] inComponent:0 animated:NO];
+                listController.list = issueOptions.statuses;
+                [listController.picker selectRow:[issueOptions.statuses indexOfObject:issue.status] inComponent:0 animated:NO];
             }
             if ([[segue identifier] isEqualToString:@"ShowPriorityList"]) {
-                listController.list = updateOptions.priorities;
-                [listController.picker selectRow:[updateOptions.priorities indexOfObject:issue.priority] inComponent:0 animated:NO];
+                listController.list = issueOptions.priorities;
+                [listController.picker selectRow:[issueOptions.priorities indexOfObject:issue.priority] inComponent:0 animated:NO];
             }
             if ([[segue identifier] isEqualToString:@"ShowAssigneeList"]) {
-                listController.list = updateOptions.assignableUsers;
-                [listController.picker selectRow:[updateOptions.assignableUsers indexOfObject:issue.assignedTo] inComponent:0 animated:NO];
+                listController.list = issueOptions.assignableUsers;
+                [listController.picker selectRow:[issueOptions.assignableUsers indexOfObject:issue.assignedTo] inComponent:0 animated:NO];
             }
             if ([[segue identifier] isEqualToString:@"ShowCategoryList"]) {
-                if (updateOptions.categories.count > 0) {
-                    listController.list = updateOptions.categories;
+                if (issueOptions.categories.count > 0) {
+                    listController.list = issueOptions.categories;
                 } else {
                     listController.list = [NSArray arrayWithObject:[RKValue valueWithName:@"No categories available"]];
                 }
-                [listController.picker selectRow:[updateOptions.categories indexOfObject:issue.category] inComponent:0 animated:NO];
+                [listController.picker selectRow:[issueOptions.categories indexOfObject:issue.category] inComponent:0 animated:NO];
             }
             if ([[segue identifier] isEqualToString:@"ShowVersionList"]) {
-                if (updateOptions.versions.count > 0) {
-                    listController.list = updateOptions.versions;
+                if (issueOptions.versions.count > 0) {
+                    listController.list = issueOptions.versions;
                 } else {
                     listController.list = [NSArray arrayWithObject:[RKValue valueWithName:@"No versions available"]];
                 }
-                [listController.picker selectRow:[updateOptions.versions indexOfObject:issue.fixedVersion] inComponent:0 animated:NO];
+                [listController.picker selectRow:[issueOptions.versions indexOfObject:issue.fixedVersion] inComponent:0 animated:NO];
             }
             if ([[segue identifier] isEqualToString:@"ShowDoneRatioList"]) {
                 listController.list = doneRatioValues;
@@ -136,8 +142,8 @@
             listController.delegate = self;
 
             if ([[segue identifier] isEqualToString:@"ShowActivityList"]) {
-                listController.list = updateOptions.activities;
-                [listController.picker selectRow:[updateOptions.activities indexOfObject:timeEntry.activity] inComponent:0 animated:NO];
+                listController.list = issueOptions.activities;
+                [listController.picker selectRow:[issueOptions.activities indexOfObject:timeEntry.activity] inComponent:0 animated:NO];
             }
         }
         if ([[segue destinationViewController] isKindOfClass:[OWDatePickerController class]]) {
@@ -183,7 +189,7 @@
 
 - (void)fetchUpdateOptions:(MBProgressHUD *)hud
 {
-    updateOptions = [issue updateOptions];
+    issueOptions = [issue updateOptions];
     [self performSelectorOnMainThread:@selector(finishedUpdatingOptions:) withObject:hud waitUntilDone:NO];
 }
 
@@ -195,6 +201,8 @@
 
 - (void)beginPostingTimeEntry
 {
+    [TestFlight passCheckpoint:@"Begin Posting Time Entry"];
+    
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
     hud.labelText = @"Posting time entry...";
     [self.view addSubview:hud];
@@ -212,14 +220,18 @@
 
 - (void)finishedPostingTimeEntry:(MBProgressHUD *)hud
 {
+    [TestFlight passCheckpoint:@"Posted Time Entry"];
+    
     [hud hide:YES];
     [self beginSavingIssue];
 }
 
 - (void)beginSavingIssue
 {
+    [TestFlight passCheckpoint:@"Begin Updating Issue"];
+    
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-    hud.labelText = @"Posting issue update...";
+    hud.labelText = @"Saving issue...";
     [self.view addSubview:hud];
     [hud show:YES];
     NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(saveIssue:) object:hud];
@@ -234,6 +246,8 @@
 
 - (void)finishedSavingIssue:(MBProgressHUD *)hud
 {
+    [TestFlight passCheckpoint:@"Issue Updated"];
+    
     [hud hide:YES];
     [self dismissModalViewControllerAnimated:YES];
     [self.delegate issueUpdateControllerDidDismissed:self];
@@ -320,8 +334,8 @@
                 if (timeEntry.activity.name != nil || [timeEntry.activity.name isEqualToString:@""]) {
                     stringValue = timeEntry.activity.name;
                 } else {
-                    if (updateOptions.activities.count > 0) {
-                        stringValue = [[updateOptions.activities objectAtIndex:0] name];
+                    if (issueOptions.activities.count > 0) {
+                        stringValue = [[issueOptions.activities objectAtIndex:0] name];
                     }
                 }
                 break;
@@ -346,12 +360,12 @@
         issue.assignedTo = [controller.list objectAtIndex:index];
     }
     if ([controller.identifier isEqualToString:@"ShowCategoryList"]) {
-        if (updateOptions.categories.count > 0) {
+        if (issueOptions.categories.count > 0) {
             issue.category = [controller.list objectAtIndex:index];
         }
     }
     if ([controller.identifier isEqualToString:@"ShowVersionList"]) {
-        if (updateOptions.versions.count > 0) {
+        if (issueOptions.versions.count > 0) {
             issue.fixedVersion = [controller.list objectAtIndex:index];
         }
     }
@@ -399,6 +413,11 @@
     }
 
     return cell;
+}
+
+- (UITableViewCell *)myTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 
 @end

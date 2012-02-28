@@ -6,12 +6,13 @@
 //  Copyright (c) 2012 Owera Software. All rights reserved.
 //
 
-#import "OWTarefasController.h"
+#import "OWIssuesController.h"
 #import "MBProgressHUD.h"
 #import "OWTarefaCell.h"
 #import "OWIssueUpdateController.h"
+#import "OWAddIssueController.h"
 
-@interface OWTarefasController ()
+@interface OWIssuesController ()
 {
     NSMutableArray *_issues;
 }
@@ -19,7 +20,7 @@
 - (void)configureView;
 @end
 
-@implementation OWTarefasController
+@implementation OWIssuesController
 
 @synthesize selectedProject = _selectedProject;
 @synthesize masterPopoverController = _masterPopoverController;
@@ -71,11 +72,22 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [TestFlight passCheckpoint:@"Project's Issues List"];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+}
+
+-(IBAction)launchFeedback {
+    [TestFlight openFeedbackView];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -139,11 +151,16 @@
         issueUpdateController.delegate = self;
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     }
+    if ([[segue identifier] isEqualToString:@"AddNewIssue"]) {
+        UINavigationController *nav = [segue destinationViewController];
+        OWAddIssueController *addIssueController = (OWAddIssueController *)[nav topViewController];
+        addIssueController.delegate = self;
+        addIssueController.project = self.selectedProject;
+    }
 }
 
 - (void)issueUpdateControllerDidDismissed:(OWIssueUpdateController *)issueUpdateController
 {
-    NSLog(@"issue update delegate called!");
     [self configureView];
 }
 

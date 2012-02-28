@@ -8,7 +8,7 @@
 
 #import "OWProjectsController.h"
 #import "OWAccountsController.h"
-#import "OWTarefasController.h"
+#import "OWIssuesController.h"
 #import "MBProgressHUD.h"
 
 @implementation OWProjectsController
@@ -18,16 +18,23 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [TestFlight passCheckpoint:@"Projects List"];
+    
     [super viewDidAppear:animated];
     
     if (!_projects) {
-        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-        hud.labelText = @"Loading projects...";
-        [self.view addSubview:hud];
-        [hud show:YES];
-        NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(fetchProjects:) object:hud];
-        [[NSOperationQueue mainQueue] addOperation:op];
+        [self loadProjects];
     }
+}
+
+- (void)loadProjects
+{
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    hud.labelText = @"Loading projects...";
+    [self.view addSubview:hud];
+    [hud show:YES];
+    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(fetchProjects:) object:hud];
+    [[NSOperationQueue mainQueue] addOperation:op];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -35,7 +42,7 @@
     [super viewWillDisappear:animated];
     
     UISplitViewController *splitController = (UISplitViewController *)[UIApplication sharedApplication].delegate.window.rootViewController;
-    OWTarefasController *tarefasController = (OWTarefasController *)[(UINavigationController *)[(UITabBarController *)[splitController.viewControllers lastObject] selectedViewController] topViewController];
+    OWIssuesController *tarefasController = (OWIssuesController *)[(UINavigationController *)[(UITabBarController *)[splitController.viewControllers lastObject] selectedViewController] topViewController];
     [tarefasController setSelectedProject:nil];
 }
 
@@ -50,6 +57,16 @@
 {
     [hud hide:YES];
     [self.tableView reloadData];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"AddNewProject"]) {
+        UINavigationController *navController = [segue destinationViewController];
+        OWAddProjectController *addProjectController = (OWAddProjectController *)[navController topViewController];
+        addProjectController.account = self.account;
+        addProjectController.delegate = self;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -79,8 +96,13 @@
 {
     UISplitViewController *splitController = (UISplitViewController *)[UIApplication sharedApplication].delegate.window.rootViewController;
     RKProject *selectedProject = [_projects objectAtIndex:indexPath.row];
-    OWTarefasController *tarefasController = (OWTarefasController *)[(UINavigationController *)[(UITabBarController *)[splitController.viewControllers lastObject] selectedViewController] topViewController];
+    OWIssuesController *tarefasController = (OWIssuesController *)[(UINavigationController *)[(UITabBarController *)[splitController.viewControllers lastObject] selectedViewController] topViewController];
     [tarefasController setSelectedProject:selectedProject];
+}
+
+- (void)addProjectControllerDidSave:(BOOL)result
+{
+    if (result) [self loadProjects];
 }
 
 @end

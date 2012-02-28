@@ -97,7 +97,6 @@
 - (void)loadMoreIssues
 {
     if ([self isLastPage]) {
-        NSLog(@"It's last page!");
         return;
     }
     NSString *order = [self.orderIssuesDesc boolValue] ? @":desc" : @"";
@@ -118,7 +117,7 @@
             [_issues addObject:anIssue];
         }
     } else {
-        NSLog(@"Error retrieving issues: %@", [error localizedDescription]);
+        NSLog(@"Error loading more issues: %@", [error localizedDescription]);
     }
 }
 
@@ -135,6 +134,8 @@
 
 - (RKIssueOptions *)newIssueOptions
 {
+    if (!self.redmine.loggedIn) [self.redmine login];
+    
     RKIssueOptions *newIssueOptions = [[RKIssueOptions alloc] init];
     
     NSString *urlString     = [NSString stringWithFormat:@"%@/projects/%@/issues/new?key=%@", self.redmine.serverAddress, self.index, self.redmine.apiKey];
@@ -196,10 +197,9 @@
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]; 
     if (error) {
-        NSLog(@"Error posting new issue: %@", [error localizedDescription]);
+        NSLog(@"Error posting new issue: %@. Response from server: %@", [error localizedDescription], responseString);
         return NO;
     } else {
-        NSLog(@"New issue posted successfully. Response:\n%@", responseString);
         return YES;
     }
 }
@@ -231,6 +231,15 @@
     copy.parent = [self.parent copy];
     copy.redmine = [self.redmine copy];
     return copy;
+}
+
+- (NSDictionary *)projectDict
+{
+    NSMutableDictionary *projectDict = [[NSMutableDictionary alloc] init];
+    if (self.identifier)            [projectDict setObject:self.identifier          forKey:@"identifier"];
+    if (self.name)                  [projectDict setObject:self.name                forKey:@"name"];
+    if (self.projectDescription)    [projectDict setObject:self.projectDescription  forKey:@"description"];
+    return projectDict;
 }
 
 @end

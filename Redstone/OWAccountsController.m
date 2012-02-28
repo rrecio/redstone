@@ -8,7 +8,7 @@
 
 #import "OWAccountsController.h"
 
-#import "OWTarefasController.h"
+#import "OWIssuesController.h"
 
 #import "RedmineKit.h"
 #import "OWAccountMenuController.h"
@@ -53,7 +53,16 @@
             _accounts = [[NSMutableArray alloc] initWithArray:oldSavedArray];
         else
             _accounts = [[NSMutableArray alloc] init];
+    } else {
+        _accounts = [[NSMutableArray alloc] init];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [TestFlight passCheckpoint:@"Account Menu"];
 }
 
 - (void)viewDidUnload
@@ -146,7 +155,6 @@
 - (void)accountControllerDidSaveAccount:(RKRedmine *)account
 {
     [_accounts addObject:account];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_accounts] forKey:@"Accounts"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self.tableView reloadData];

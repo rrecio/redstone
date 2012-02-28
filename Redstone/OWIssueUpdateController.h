@@ -19,13 +19,17 @@
 @property (strong, nonatomic) IBOutlet UITextView *notesTextView;
 @property (strong, nonatomic) IBOutlet UITextField *commentsTextField;
 @property (strong, nonatomic) id<OWIssueUpdateDelegate> delegate;
+@property (strong, nonatomic) RKIssueOptions *issueOptions;
+@property (strong, nonatomic) RKTimeEntry *timeEntry;
+@property (strong, nonatomic) NSArray *doneRatioValues;
+
 - (IBAction)cancelAction:(id)sender;
 - (IBAction)doneAction:(id)sender;
-
+- (NSString *)stringValueForIndex:(NSIndexPath *)indexPath;
+- (UITableViewCell *)myTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @protocol OWIssueUpdateDelegate <NSObject>
 
 - (void)issueUpdateControllerDidDismissed:(OWIssueUpdateController *)issueUpdateController;
-
 @end

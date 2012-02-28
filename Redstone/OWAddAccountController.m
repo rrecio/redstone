@@ -31,6 +31,13 @@
     return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [TestFlight passCheckpoint:@"Add Account"];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -84,8 +91,13 @@
 - (void)finishedLogin:(MBProgressHUD *)hud
 {
     [hud hide:YES];
-    [self.delegate accountControllerDidSaveAccount:_newAccount];
-    [self dismissModalViewControllerAnimated:YES];
+    if (_newAccount.apiKey == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to fetch Redmine's API key." message:@"It looks like the REST web service access is not activated." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        [self.delegate accountControllerDidSaveAccount:_newAccount];
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 @end
