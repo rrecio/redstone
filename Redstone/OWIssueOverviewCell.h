@@ -1,22 +1,25 @@
 //
-//  OWTarefaCell.h
+//  OWIssueOverviewCell.h
 //  Redstone
 //
-//  Created by Rodrigo Recio on 25/02/12.
+//  Created by Rodrigo Recio on 02/03/12.
 //  Copyright (c) 2012 Owera Software. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface OWTarefaCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UILabel *trackerLabel;
-@property (strong, nonatomic) IBOutlet UILabel *indexLabel;
+@interface OWIssueOverviewCell : UITableViewCell
+
+@property (strong, nonatomic) IBOutlet UILabel *subjectLabel;
+@property (strong, nonatomic) IBOutlet UILabel *addedByAuthorLabel;
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property (strong, nonatomic) IBOutlet UILabel *priorityLabel;
-@property (strong, nonatomic) IBOutlet UILabel *subjectLabel;
 @property (strong, nonatomic) IBOutlet UILabel *assignedToLabel;
-@property (strong, nonatomic) IBOutlet UILabel *authorLabel;
+@property (strong, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (strong, nonatomic) IBOutlet UILabel *versionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *startLabel;
 @property (strong, nonatomic) IBOutlet UILabel *dueLabel;
+@property (strong, nonatomic) IBOutlet UILabel *doneRatioLabel;
+@property (strong, nonatomic) IBOutlet UILabel *spentTimeLabel;
+
 @end

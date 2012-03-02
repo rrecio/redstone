@@ -46,6 +46,8 @@ typedef enum {
 @property (nonatomic) RKIssueSortBy sortIssuesBy;
 @property (strong, nonatomic) NSNumber *orderIssuesDesc;
 
+- (NSMutableArray *)refreshIssues;
+
 + (RKProject *)projectForProjectDict:(NSDictionary *)projectDict;
 /**
  * method to get a specific issue
@@ -74,5 +76,7 @@ typedef enum {
 - (RKIssueOptions *)newIssueOptions;
 
 - (NSDictionary *)projectDict;
+
+- (BOOL)postProjectUpdate;
 
 @end

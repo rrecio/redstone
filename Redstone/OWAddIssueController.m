@@ -52,25 +52,53 @@
     if (indexPath.section == 0) {
         switch (indexPath.row) {
             case 0:
+            {
+                if (self.issue.tracker.name == nil)
+                {
+                    self.issue.tracker = [self.issueOptions.trackers objectAtIndex:0];
+                }
                 stringValue = self.issue.tracker.name;
+            }
                 break;
             case 1:
-                stringValue = self.issue.subject;
+            {
+                if (subjectField.text == nil) {
+                    stringValue = self.issue.subject;
+                } else {
+                    stringValue = subjectField.text;
+                }
+            }
                 break;
             default:
                 break;
         }
     } 
     if (indexPath.section == 1) {
-        stringValue = self.issue.issueDescription;
+        if (descriptionTextView.text == nil) {
+            stringValue = self.issue.issueDescription;
+        } else {
+            stringValue = descriptionTextView.text;
+        }
     }
     if (indexPath.section == 2) {
         switch (indexPath.row) {
             case 0:
+            {
+                if (self.issue.status.name == nil)
+                {
+                    self.issue.status = [self.issueOptions.statuses objectAtIndex:0];
+                }
                 stringValue = self.issue.status.name;
+            }
                 break;
             case 1:
+            {
+                if (self.issue.priority.name == nil)
+                {
+                    self.issue.priority = [self.issueOptions.priorities objectAtIndex:0];
+                }
                 stringValue = self.issue.priority.name;
+            }
                 break;
             case 2:
                 stringValue = self.issue.assignedTo.name;

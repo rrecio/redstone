@@ -9,12 +9,15 @@
 #import "OWIssuesController.h"
 #import "MBProgressHUD.h"
 #import "OWTarefaCell.h"
-#import "OWIssueUpdateController.h"
 #import "OWAddIssueController.h"
+#import "OWIssueController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface OWIssuesController ()
 {
     NSMutableArray *_issues;
+    BOOL _reconfigureViewWhenItAppear;
+    OWIssueController *issueController;
 }
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
@@ -35,7 +38,11 @@
         [self.tableView reloadData];
         
         // Update the view.
-        [self configureView];
+        if (self.navigationController.topViewController == self) {
+            [self configureView];
+        } else {
+            _reconfigureViewWhenItAppear = YES;
+        }
     }
 
     if (self.masterPopoverController != nil) {
@@ -62,7 +69,7 @@
 
 - (void)loadIssues:(MBProgressHUD *)hud
 {
-    _issues = [_selectedProject issues];
+    _issues = _issues ? [_selectedProject refreshIssues] : [_selectedProject issues];
     [self performSelectorOnMainThread:@selector(finishedLoadingIssues:) withObject:hud waitUntilDone:YES];
 }
 
@@ -76,6 +83,11 @@
 {
     [super viewDidAppear:animated];
     
+    if (_reconfigureViewWhenItAppear || issueController.hasChanges) {
+        [self configureView];
+        _reconfigureViewWhenItAppear = NO;
+    }
+    
     [TestFlight passCheckpoint:@"Project's Issues List"];
 }
 
@@ -83,7 +95,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [self configureView];
+    
+    self.parentViewController.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
 }
 
 -(IBAction)launchFeedback {
@@ -103,7 +116,7 @@
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
-    barButtonItem.title = NSLocalizedString(@"Projetos", nil);
+    barButtonItem.title = NSLocalizedString(@"Projects", nil);
     [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
     self.masterPopoverController = popoverController;
 }
@@ -129,26 +142,59 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"Cell";
-    OWTarefaCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellId];
-    
     RKIssue *issue = [_issues objectAtIndex:indexPath.row];
-    cell.subjectLabel.text = issue.subject;
-    cell.indexLabel.text = [NSString stringWithFormat:@"#%@", issue.index];
-    cell.trackerLabel.text = issue.tracker.name;
-    cell.statusLabel.text = issue.status.name;
     
+    OWTarefaCell *cell = nil;
+    
+    cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell"];
+   
+    cell.subjectLabel.text      = issue.subject;
+    cell.trackerLabel.text      = issue.tracker.name;
+    cell.indexLabel.text        = [issue.index stringValue];
+    cell.authorLabel.text       = issue.author.name;
+    cell.assignedToLabel.text   = issue.assignedTo.name;
+    cell.statusLabel.text       = issue.status.name;
+    cell.startLabel.text        = [RKParseHelper shortDateStringFromDate:issue.startDate];
+    cell.priorityLabel.text     = issue.priority.name;
+    cell.versionLabel.text      = issue.fixedVersion.name;
+    cell.dueLabel.text          = [RKParseHelper shortDateStringFromDate:issue.dueDate];
+    
+    if (![cell.backgroundView isKindOfClass:[UIImageView class]]) {
+        cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_bg"]];
+        cell.backgroundView.userInteractionEnabled = NO;
+    }
+
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RKIssue *issue = [_issues objectAtIndex:indexPath.row];
+    NSLog(@"%@", [issue description]);
+    
+    if (indexPath.row+1 == [_issues count]) {
+        cell.backgroundView.layer.shadowColor = [[UIColor blackColor] CGColor];
+        cell.backgroundView.layer.shadowOffset = CGSizeMake(0, 10);
+        cell.backgroundView.layer.shadowOpacity = 0.50;
+        cell.selectedBackgroundView.backgroundColor = self.navigationController.navigationBar.backgroundColor;
+    } else {
+        cell.backgroundView.layer.shadowOffset = CGSizeMake(0, 0);
+        cell.backgroundView.layer.shadowColor = [[UIColor clearColor] CGColor];
+        cell.backgroundView.layer.shadowOpacity = 0.0;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{    
+    NSLog(@"tableview didselect");
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"ShowIssue"]) {
-        UINavigationController *nav = [segue destinationViewController];
-        OWIssueUpdateController *issueUpdateController = (OWIssueUpdateController *)[nav topViewController];
+        issueController = (OWIssueController *)[segue destinationViewController];
         RKIssue *selectedIssue = [_issues objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
-        issueUpdateController.issue = selectedIssue;
-        issueUpdateController.delegate = self;
+        issueController.issue = selectedIssue;
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     }
     if ([[segue identifier] isEqualToString:@"AddNewIssue"]) {

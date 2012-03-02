@@ -8,12 +8,13 @@
 
 #import "RKIssue.h"
 #import "RKRedmine.h"
-#import "JSON.h"
+#import "SBJSON.h"
 #import "RKIssueOptions.h"
 #import "TFHpple.h"
 #import "RKParseHelper.h"
 #import "RKProject.h"
 #import "RKValue.h"
+
 
 @interface RKIssue ()
 - (void)loadJournals;
@@ -41,13 +42,12 @@
 @synthesize journals=_journals;
 @synthesize parentTask=_parentTask;
 @synthesize category=_category;
-//@synthesize activity=_activity;
 
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ #%@ (%@): %@, adicionado por %@", 
-            self.tracker.name, self.index, self.status.name, self.subject, self.author.name];
+    return [NSString stringWithFormat:@"%@ #%@ (%@): %@\n author: %@\n assigned to: %@\n due: %@",
+            self.tracker.name, self.index, self.status.name, self.subject, self.author.name, self.assignedTo, self.dueDate];
 }
 
 - (NSMutableArray *)journals
@@ -55,7 +55,6 @@
     if (_journals == nil) {
         [self loadJournals];
     }
-    
     return _journals;
 }
 
@@ -69,21 +68,21 @@
     if (!error) {
         NSDictionary *jsonDict  = [responseString JSONValue];
         NSDictionary *issueDict = [jsonDict objectForKey:@"issue"];
-        NSDictionary *journalsDict  = [issueDict objectForKey:@"journals"];
+        NSArray *journalsDict   = [issueDict objectForKey:@"journals"];
         for (NSDictionary *journalDict in journalsDict) {
             RKJournal *aJournal = [[RKJournal alloc] init];
             aJournal.index      = [journalDict objectForKey:@"id"];
             aJournal.createdOn  = [RKParseHelper dateForString:[journalDict objectForKey:@"created_on"]];
             aJournal.user       = [RKParseHelper valueForDict:[journalDict objectForKey:@"user"]];
             aJournal.notes      = [journalDict objectForKey:@"notes"];
-            aJournal.details    = [NSMutableArray array];
+            aJournal.details    = [[NSMutableArray alloc] init];
             for (NSDictionary *detailDict in [journalDict objectForKey:@"details"]) {
-                RKJournalDetail *detail = [[RKJournalDetail alloc] init];
-                detail.theNewValue  = [journalDict objectForKey:@"new_value"];
-                detail.property     = [journalDict objectForKey:@"property"];
-                detail.theOldValue  = [journalDict objectForKey:@"old_value"];
-                detail.name         = [journalDict objectForKey:@"name"];
-                [aJournal.details addObject:detail];
+                RKJournalDetail *journalDetail = [[RKJournalDetail alloc] init];
+                journalDetail.theNewValue  = [detailDict objectForKey:@"new_value"];
+                journalDetail.property     = [detailDict objectForKey:@"property"];
+                journalDetail.theOldValue  = [detailDict objectForKey:@"old_value"];
+                journalDetail.name         = [detailDict objectForKey:@"name"];
+                [aJournal.details addObject:journalDetail];
             }
             [_journals addObject:aJournal];
         }
@@ -98,34 +97,36 @@
     return [self journals];
 }
 
-- (RKIssueOptions *)updateOptions;
+- (RKIssueOptions *)updateOptions
 {
     if (!self.project.redmine.loggedIn) [self.project.redmine login];
     
     RKIssueOptions *options         = [[RKIssueOptions alloc] init];
+
     NSString *urlString             = [NSString stringWithFormat:@"%@/issues/%@?key=%@", 
                                        self.project.redmine.serverAddress, 
                                        self.index, 
                                        self.project.redmine.apiKey];
     NSURL *url                      = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request    = [[NSMutableURLRequest alloc] initWithURL:url];
+    NSHTTPURLResponse *response     = nil;
     NSError *error                  = nil;
     NSData *data                    = [NSURLConnection sendSynchronousRequest:request 
-                                                            returningResponse:nil 
+                                                            returningResponse:&response
                                                                         error:&error];
-    NSString *responseString = [[NSString alloc] initWithData:data 
-                                                     encoding:NSUTF8StringEncoding];
-    NSLog(@"Update Options response string: %@", responseString);
-    TFHpple *doc            = [[TFHpple alloc] initWithHTMLData:data];
+    if (!error) {        
+        TFHpple *doc        = [[TFHpple alloc] initWithHTMLData:data];
+        options.trackers    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_tracker_id']/option"];
+        options.statuses    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_status_id']/option"];
+        options.priorities  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_priority_id']/option"];
+        options.categories  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_category_id']/option"];
+        options.versions    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_fixed_version_id']/option"];
+        options.assignableUsers = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_assigned_to_id']/option"];
+        options.activities  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='time_entry_activity_id']/option"];
+    } else {
+        NSLog(@"Error fetching issue update options: %@ (HTTP status code: %d)", [error localizedDescription], [response statusCode]);
+    }
     
-    options.trackers    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_tracker_id']/option"];
-    options.statuses    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_status_id']/option"];
-    options.priorities  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_priority_id']/option"];
-    options.categories  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_category_id']/option"];
-    options.versions    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_fixed_version_id']/option"];
-    options.assignableUsers = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_assigned_to_id']/option"];
-    options.activities  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='time_entry_activity_id']/option"];
-
     return options;
 }
 
@@ -225,8 +226,8 @@
     anIssue.issueDescription = [issueDict objectForKey:@"description"];
     anIssue.tracker     = [RKParseHelper valueForDict:[issueDict objectForKey:@"tracker"]];
     anIssue.index       = [issueDict objectForKey:@"id"];
-    anIssue.startDate   = [RKParseHelper dateForString:[issueDict objectForKey:@"start_date"]];
-    anIssue.dueDate     = [RKParseHelper dateForString:[issueDict objectForKey:@"due_date"]];
+    anIssue.startDate   = [RKParseHelper dateForShortDateString:[issueDict objectForKey:@"start_date"]];
+    anIssue.dueDate     = [RKParseHelper dateForShortDateString:[issueDict objectForKey:@"due_date"]];
     anIssue.priority    = [RKParseHelper valueForDict:[issueDict objectForKey:@"priority"]];
     anIssue.fixedVersion = [RKParseHelper valueForDict:[issueDict objectForKey:@"fixed_version"]];
     anIssue.category    = [RKParseHelper valueForDict:[issueDict objectForKey:@"category"]];
@@ -258,6 +259,7 @@
     anIssue.category    = [self.category copy];
     anIssue.parentTask  = [self.parentTask copy];
     anIssue.estimatedHours = [self.estimatedHours copy];
+    anIssue.project     = [self.project copy];
     return anIssue;
 }
 

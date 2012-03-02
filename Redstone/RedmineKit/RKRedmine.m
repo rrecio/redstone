@@ -9,7 +9,7 @@
 #import "RKRedmine.h"
 #import "RKParseHelper.h"
 #import "TFHpple.h"
-#import "JSON.h"
+#import "SBJSON.h"
 
 @interface RKRedmine ()
 - (NSString *)authKey;
@@ -117,11 +117,13 @@
 
 - (NSArray *)projects
 {
-    _projects = [[NSMutableArray alloc] init];
-    projectPage = 1;
-    pageOffset = 0;
-    totalProjects = 0;
-    [self loadMoreProjects];
+    if (!_projects) {
+        _projects = [[NSMutableArray alloc] init];
+        projectPage = 1;
+        pageOffset = 0;
+        totalProjects = 0;
+        [self loadMoreProjects];
+    }
     return _projects;
 }
 

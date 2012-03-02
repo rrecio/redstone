@@ -34,7 +34,6 @@
 @property (strong, nonatomic) NSMutableArray *journals;
 @property (strong, nonatomic) NSNumber *parentTask;
 @property (strong, nonatomic) RKValue *category;
-//@property (nonatomic, retain) Value *activity;
 
 + (RKIssue *)issueForIssueDict:(NSDictionary *)issueDict;
 

@@ -17,7 +17,19 @@
 
 @implementation OWAddProjectController
 
-@synthesize nameField, identifierField, descriptionField, account, delegate;
+@synthesize nameField, identifierField, descriptionField, account, delegate, project;
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (project) {
+        self.navigationItem.title = NSLocalizedString(@"Project Details", nil);
+        nameField.text = project.name;
+        identifierField.text = project.identifier;
+        descriptionField.text = project.projectDescription;
+    }
+}
 
 - (IBAction)cancelAction:(id)sender
 {
@@ -30,16 +42,24 @@
     [self.parentViewController.view addSubview:hud];
     hud.labelText = NSLocalizedString(@"Saving project...", nil);
     [hud show:YES];
-    [self postNewProject];
+    [self postProject];
 }
 
-- (void)postNewProject
+- (void)postProject
 {
-    RKProject *newProject = [[RKProject alloc] init];
-    newProject.name = nameField.text;
-    newProject.identifier = identifierField.text;
-    newProject.projectDescription = descriptionField.text;
-    BOOL result = [self.account postNewProject:newProject];
+    if (!project) {
+        project = [[RKProject alloc] init];
+    }
+    project.name = nameField.text;
+    project.projectDescription = descriptionField.text;
+    project.identifier = identifierField.text;
+    BOOL result;
+    if (!project.index) {
+        result = [self.account postNewProject:project];
+    } else {
+        project.identifier = nil;
+        result = [project postProjectUpdate];
+    }
     [hud hide:YES];
     if (result) {
         [self.delegate addProjectControllerDidSave:result];

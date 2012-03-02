@@ -48,6 +48,15 @@
                        [RKValue valueWithName:@"100 %" andIndex:[NSNumber numberWithInt:100]], nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    if (issueOptions) {
+        [self.tableView reloadData];
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [TestFlight passCheckpoint:@"Issue Update"];
@@ -66,6 +75,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSLog(@"prepare for segue");
     if ([segue identifier]) {
         [TestFlight passCheckpoint:[@"Issue Update: " stringByAppendingString:[segue identifier]]];
     } else {
@@ -120,6 +130,10 @@
                 RKValue *doneRatio = [RKValue valueWithName:[NSString stringWithFormat:@"%@ %%", issue.doneRatio] andIndex:issue.doneRatio];
                 [listController.picker selectRow:[doneRatioValues indexOfObject:doneRatio] inComponent:0 animated:NO];
             }
+            
+            if (listController.list.count == 0) {
+                listController.list = nil;
+            }
         }
         if ([[segue destinationViewController] isKindOfClass:[OWDatePickerController class]]) {
             OWDatePickerController *datePickerController = (OWDatePickerController *)[segue destinationViewController];
@@ -159,12 +173,14 @@
     }
 }
 
+
+
 #pragma mark - View Actions
 
 - (IBAction)cancelAction:(id)sender
 {
     [self dismissModalViewControllerAnimated:YES];
-    [self.delegate issueUpdateControllerDidDismissed:self];
+//    [self.delegate issueUpdateControllerDidDismissed:self];
 }
 
 - (IBAction)doneAction:(id)sender
@@ -350,36 +366,39 @@
 
 - (void)listController:(OWListController *)controller didSelectItemOnIndex:(NSUInteger)index
 {
-    if ([controller.identifier isEqualToString:@"ShowStatusList"]) {
-        issue.status = [controller.list objectAtIndex:index];
-    }
-    if ([controller.identifier isEqualToString:@"ShowPriorityList"]) {
-        issue.priority = [controller.list objectAtIndex:index];
-    }
-    if ([controller.identifier isEqualToString:@"ShowAssigneeList"]) {
-        issue.assignedTo = [controller.list objectAtIndex:index];
-    }
-    if ([controller.identifier isEqualToString:@"ShowCategoryList"]) {
-        if (issueOptions.categories.count > 0) {
-            issue.category = [controller.list objectAtIndex:index];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    
+    if (controller.list.count > 0) {
+        if ([controller.identifier isEqualToString:@"ShowStatusList"]) {
+            issue.status = [controller.list objectAtIndex:index];
         }
-    }
-    if ([controller.identifier isEqualToString:@"ShowVersionList"]) {
-        if (issueOptions.versions.count > 0) {
+        if ([controller.identifier isEqualToString:@"ShowPriorityList"]) {
+            issue.priority = [controller.list objectAtIndex:index];
+        }
+        if ([controller.identifier isEqualToString:@"ShowAssigneeList"]) {
+            issue.assignedTo = [controller.list objectAtIndex:index];
+        }
+        if ([controller.identifier isEqualToString:@"ShowCategoryList"]) {
+            if (issueOptions.categories.count > 0) {
+                issue.category = [controller.list objectAtIndex:index];
+            }
+        }
+        if ([controller.identifier isEqualToString:@"ShowVersionList"]) {
+            if (issueOptions.versions.count > 0) {
+                issue.fixedVersion = [controller.list objectAtIndex:index];
+            }
+        }
+        if ([controller.identifier isEqualToString:@"ShowVersionList"]) {
             issue.fixedVersion = [controller.list objectAtIndex:index];
         }
+        if ([controller.identifier isEqualToString:@"ShowDoneRatioList"]) {
+            issue.doneRatio = [[controller.list objectAtIndex:index] index];
+        }
+        if ([controller.identifier isEqualToString:@"ShowActivityList"]) {
+            timeEntry.activity = [controller.list objectAtIndex:index];
+        }
+        [self.tableView reloadData];
     }
-    if ([controller.identifier isEqualToString:@"ShowVersionList"]) {
-        issue.fixedVersion = [controller.list objectAtIndex:index];
-    }
-    if ([controller.identifier isEqualToString:@"ShowDoneRatioList"]) {
-        issue.doneRatio = [[controller.list objectAtIndex:index] index];
-    }
-    if ([controller.identifier isEqualToString:@"ShowActivityList"]) {
-        timeEntry.activity = [controller.list objectAtIndex:index];
-    }
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-    [self.tableView reloadData];
 }
 
 - (void)datePickerController:(OWDatePickerController *)controller didSelectDate:(NSDate *)date
@@ -407,6 +426,8 @@
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
     if (indexPath.section == 0) {
+        cell.textLabel.lineBreakMode = UILineBreakModeTailTruncation;
+        cell.textLabel.adjustsFontSizeToFitWidth = NO;
         cell.textLabel.text = [NSString stringWithFormat:@"%@ #%@: %@", issue.tracker.name, issue.index, issue.subject];
     } else {
         cell.detailTextLabel.text = [self stringValueForIndex:indexPath];

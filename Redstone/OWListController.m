@@ -19,6 +19,7 @@
 @synthesize delegate;
 @synthesize identifier;
 @synthesize selectedIndex;
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 //    return (interfaceOrientation == UIInterfaceOrientationPortrait);

@@ -1,26 +1,40 @@
-## Redstone
+    # Redstone
 
-App para acessar sistemas de gerenciamento de projetos baseados no Redmine
+Cliente Redmine para iOS
 
-## Funcionalidades implementadas até o momento
+    # Compatibilidade
 
-=> Geral
-* Acesso a múltiplas contas
+* Redmine 1.3.x
+* Planio (verificar)
 
-=> Projetos
-* Listagem de projetos
-
-=> Tarefas 
-* Listagem de tarefas
-* Criar tarefas
-* Atualizar tarefas
-* Registrar tempo de trabalho em tarefas
-
-=> Compatibilidade com sistemas de gerenciamento de projeto
-- Redmine 1.3.x
-- Redmine 1.2.x (verificar)
-- Planio (verificar)
-
-## Nota
+    # Nota
 
 Para usar o app é preciso se cadastrar em http://projetos.owera.com.br ou em outro site de versão compatível do Redmine, que esteja com REST web service ativado.
+
+
+    # Versões
+    
+0.9 (build 7)
+
+* Corrigido algumas falhas visuais
+* Nova tela de visualização de tarefa
+* Histórico de tarefas (issues journals contendo alterações, notas, etc.)
+    
+0.9 (build 6)
+
+* Edição de projeto
+* Experimento no design do app
+* Melhor estabilidade
+
+0.9 (build 5)
+
+* Cadastro de projeto
+
+0.9 (build 4)
+
+* Acesso a múltiplas contas
+* Listagem de projetos
+* Listagem de tarefas
+* Cadastro de tarefa
+* Atualização de tarefa
+* Registro de tempo de trabalho em tarefa

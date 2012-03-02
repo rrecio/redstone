@@ -20,5 +20,6 @@
 @property (strong, nonatomic) IBOutlet UITextField *descriptionField;
 @property (strong, nonatomic) RKRedmine *account;
 @property (strong, nonatomic) id<OWAddProjectDelegate> delegate;
+@property (strong, nonatomic) RKProject *project;
 
 @end

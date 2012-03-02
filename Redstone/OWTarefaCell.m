@@ -9,7 +9,8 @@
 #import "OWTarefaCell.h"
 
 @implementation OWTarefaCell
-@synthesize indexLabel, trackerLabel, subjectLabel, statusLabel;
+@synthesize authorLabel, assignedToLabel, statusLabel, priorityLabel, dueLabel, versionLabel;
+@synthesize trackerLabel, indexLabel, startLabel, subjectLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

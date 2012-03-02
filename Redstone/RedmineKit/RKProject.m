@@ -8,7 +8,7 @@
 
 #import "RKProject.h"
 #import "RKRedmine.h"
-#import "JSON.h"
+#import "SBJSON.h"
 #import "TFHpple.h"
 #import "RKParseHelper.h"
 #import "RKRedmine.h"
@@ -37,11 +37,13 @@
 
 - (NSMutableArray *)issues
 {
-    _issues  = [NSMutableArray array];
-    issuesPageCount = 1;
-    pageOffset = 0;
-    totalIssues = 0;
-    [self loadMoreIssues];
+    if (!_issues) {
+        _issues  = [NSMutableArray array];
+        issuesPageCount = 1;
+        pageOffset = 0;
+        totalIssues = 0;
+        [self loadMoreIssues];
+    }
     return _issues;
 }
 
@@ -117,7 +119,7 @@
             [_issues addObject:anIssue];
         }
     } else {
-        NSLog(@"Error loading more issues: %@", [error localizedDescription]);
+        NSLog(@"Error loading more issues: %@. URL string: %@", [error localizedDescription], urlString);
     }
 }
 
@@ -140,16 +142,24 @@
     
     NSString *urlString     = [NSString stringWithFormat:@"%@/projects/%@/issues/new?key=%@", self.redmine.serverAddress, self.index, self.redmine.apiKey];
     NSURL *url              = [NSURL URLWithString:urlString];
-    NSData  *data           = [NSData dataWithContentsOfURL:url];
-    TFHpple *doc            = [[TFHpple alloc] initWithHTMLData:data];
-    
-    newIssueOptions.trackers    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_tracker_id']/option"];
-    newIssueOptions.statuses    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_status_id']/option"];
-    newIssueOptions.priorities  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_priority_id']/option"];
-    newIssueOptions.categories  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_category_id']/option"];
-    newIssueOptions.versions    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_fixed_version_id']/option"];
-    newIssueOptions.assignableUsers = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_assigned_to_id']/option"];
-    
+    NSMutableURLRequest *request    = [[NSMutableURLRequest alloc] initWithURL:url];
+    NSHTTPURLResponse *response     = nil;
+    NSError *error                  = nil;
+    NSData *data                    = [NSURLConnection sendSynchronousRequest:request 
+                                                            returningResponse:&response
+                                                                        error:&error];
+    if (!error) {
+        TFHpple *doc            = [[TFHpple alloc] initWithHTMLData:data];    
+        newIssueOptions.trackers    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_tracker_id']/option"];
+        newIssueOptions.statuses    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_status_id']/option"];
+        newIssueOptions.priorities  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_priority_id']/option"];
+        newIssueOptions.categories  = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_category_id']/option"];
+        newIssueOptions.versions    = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_fixed_version_id']/option"];
+        newIssueOptions.assignableUsers = [RKParseHelper arrayForElementsOfDoc:doc onXPath:@"//select[@id='issue_assigned_to_id']/option"];
+    } else {
+            NSLog(@"Error fetching new issue options: %@ (HTTP status code: %d)", [error localizedDescription], [response statusCode]);
+    }
+        
     return newIssueOptions;
 }
 
@@ -200,6 +210,29 @@
         NSLog(@"Error posting new issue: %@. Response from server: %@", [error localizedDescription], responseString);
         return NO;
     } else {
+        return YES;
+    }
+}
+
+- (BOOL)postProjectUpdate {
+    NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
+    [jsonDict setObject:[self projectDict] forKey:@"project"];
+    NSString *jsonString = [jsonDict JSONRepresentation];
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *urlString = [NSString stringWithFormat:@"%@/projects/%@.json?key=%@", self.redmine.serverAddress, self.index, self.redmine.apiKey];
+    NSURL *url          = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"PUT"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:jsonData];
+    NSError *error      = nil;
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]; 
+    if (error) {
+        NSLog(@"Error updating project: %@. URL string: %@", [error localizedDescription], urlString);
+        return NO;
+    } else {
+        NSLog(@"Project update posted successfully. Response:\n%@", responseString);
         return YES;
     }
 }
