@@ -10,6 +10,8 @@
 #import "OWIssueOverviewCell.h"
 #import "OWJournalCell.h"
 #import "RKParseHelper.h"
+#import "RedmineKitManager.h"
+#import "OWIssueUpdateController.h"
 
 @interface OWIssueController ()
 
@@ -18,6 +20,34 @@
 @implementation OWIssueController
 
 @synthesize issue, hasChanges;
+
+- (id)init
+{
+    return [self initWithStyle:UITableViewStyleGrouped];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Update" style:UIBarButtonItemStyleBordered target:self action:@selector(updateButtonTapped:)];
+}
+
+- (void)updateButtonTapped:(id)sender
+{
+    OWIssueUpdateController *updateController = [[OWIssueUpdateController alloc] init];
+    updateController.delegate = self;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:updateController];
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:navController animated:YES];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    issue = [[RedmineKitManager sharedInstance] selectedIssue];
+    [self.tableView reloadData];
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -58,6 +88,11 @@
     
     if (indexPath.section == 0) {
         OWIssueOverviewCell *cell = (OWIssueOverviewCell *)[self.tableView dequeueReusableCellWithIdentifier:overviewCell];
+        
+        if (cell == nil) {
+            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"OWIssueOverviewCell" owner:self options:NULL];
+            cell = [topLevelObjects objectAtIndex:0];
+        }
         
         cell.subjectLabel.text          = issue.subject;
         NSString *addedBy               = NSLocalizedString(@"Added by %@. %@", nil);

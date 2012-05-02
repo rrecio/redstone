@@ -6,44 +6,48 @@
 //  Copyright (c) 2012 Owera Software. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
+#import "RedmineKit.h"
 #import "OWProjectsController.h"
 #import "OWAccountsController.h"
 #import "OWIssuesController.h"
 #import "MBProgressHUD.h"
-#import <QuartzCore/QuartzCore.h>
 #import "OWIssueController.h"
+#import "OWAddProjectController.h"
+#import "RedmineKitManager.h"
+
+@interface OWProjectsController ()
+{
+    RedmineKitManager *workflowManager;
+}
+@end
 
 @implementation OWProjectsController
 
-@synthesize account=_account;
-@synthesize projects=_projects;
+# pragma mark - Initializing
 
-- (void)viewDidLoad
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    [super viewDidLoad];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
-    self.parentViewController.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    workflowManager = [RedmineKitManager sharedInstance];
+    self.title = @"Projects";
+    
+    return self;
 }
+
+# pragma mark - UIView goodness
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [TestFlight passCheckpoint:@"Projects List"];
-    
     [super viewDidAppear:animated];
     
-    if (!_projects) {
+    if (workflowManager.selectedAccount.projects != nil) {
         [self loadProjects];
     }
-}
-
-- (void)loadProjects
-{
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-    hud.labelText = @"Loading projects...";
-    [self.view addSubview:hud];
-    [hud show:YES];
-    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(fetchProjects:) object:hud];
-    [[NSOperationQueue mainQueue] addOperation:op];
+    
+    [TestFlight passCheckpoint:@"Projects List"];   
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -51,22 +55,31 @@
     [super viewWillDisappear:animated];
     
     UISplitViewController *splitController = (UISplitViewController *)[UIApplication sharedApplication].delegate.window.rootViewController;
-    UINavigationController *navController = (UINavigationController *)[(UITabBarController *)[splitController.viewControllers lastObject] selectedViewController];
+    UINavigationController *navController = (UINavigationController *)[splitController.viewControllers lastObject];
     if ([navController.topViewController isKindOfClass:[OWIssuesController class]]) {
-        OWIssuesController *tarefasController = (OWIssuesController *)[navController topViewController];
-        [tarefasController setSelectedProject:nil];
+        [workflowManager setSelectedProject:nil];
     }
     if ([navController.topViewController isKindOfClass:[OWIssueController class]]) {
         [navController popViewControllerAnimated:YES];
-        OWIssuesController *tarefasController = (OWIssuesController *)[navController topViewController];
-        [tarefasController setSelectedProject:nil];
+        [workflowManager setSelectedProject:nil];
     }
 }
 
-- (void)fetchProjects:(MBProgressHUD *)hud
+# pragma mark - Projects loading shit
+
+- (void)loadProjects
 {
-    NSArray *projects = _projects ? [_account refreshProjects] : [_account projects];
-    [self performSelectorOnMainThread:@selector(setProjects:) withObject:projects waitUntilDone:YES];
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    hud.labelText = @"Loading projects...";
+    [self.view addSubview:hud];
+    [hud show:YES];
+    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(beginFetchingProjects:) object:hud];
+    [[NSOperationQueue mainQueue] addOperation:op];
+}
+
+- (void)beginFetchingProjects:(MBProgressHUD *)hud
+{
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     [self performSelectorOnMainThread:@selector(finishedFetchingProjects:) withObject:hud waitUntilDone:NO];
 }
 
@@ -76,19 +89,8 @@
     [self.tableView reloadData];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"AddNewProject"]) {
-        UINavigationController *navController = [segue destinationViewController];
-        OWAddProjectController *addProjectController = (OWAddProjectController *)[navController topViewController];
-        addProjectController.account = self.account;
-        addProjectController.delegate = self;
-        if ([sender isKindOfClass:[NSIndexPath class]]) {
-            NSIndexPath *indexPath = (NSIndexPath *)sender;
-            addProjectController.project = [_projects objectAtIndex:indexPath.row];
-        }
-    }
-}
+
+# pragma mark - Table view delegate and data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -97,7 +99,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _projects.count;
+    return workflowManager.selectedAccount.projects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,21 +107,20 @@
     static NSString *cellId = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    RKProject *project = [_projects objectAtIndex:indexPath.row];
-    cell.textLabel.text = project.name;
     
-    if (![cell.backgroundView isKindOfClass:[UIImageView class]]) {
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
-        cell.textLabel.backgroundColor = [UIColor clearColor];
-        cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_bg"]];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
     }
-        
+    
+    RKProject *project = [workflowManager.selectedAccount.projects objectAtIndex:indexPath.row];
+    cell.textLabel.text = project.name;
+
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row+1 == [_projects count]) {
+    if (indexPath.row+1 == [workflowManager.selectedAccount.projects count]) {
         cell.backgroundView.layer.shadowColor = [[UIColor blackColor] CGColor];
         cell.backgroundView.layer.shadowOffset = CGSizeMake(0, 10);
         cell.backgroundView.layer.shadowOpacity = 0.50;
@@ -134,27 +135,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UISplitViewController *splitController = (UISplitViewController *)[UIApplication sharedApplication].delegate.window.rootViewController;
-    RKProject *selectedProject = [_projects objectAtIndex:indexPath.row];
-    UINavigationController *navController = (UINavigationController *)[(UITabBarController *)splitController.viewControllers.lastObject selectedViewController];
-    if ([navController.topViewController isKindOfClass:[OWIssuesController class]]) {
-        OWIssuesController *issuesController = (OWIssuesController *)navController.topViewController;
-        [issuesController setSelectedProject:selectedProject];
-    }
+    RKProject *selectedProject = [workflowManager.selectedAccount.projects objectAtIndex:indexPath.row];
+    workflowManager.selectedProject = selectedProject;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"RKProjectSelected" object:nil];
+    
+    UINavigationController *navController = (UINavigationController *)splitController.viewControllers.lastObject;
     if ([navController.topViewController isKindOfClass:[OWIssueController class]]) {
         [navController popViewControllerAnimated:YES];
-        OWIssuesController *issuesController = (OWIssuesController *)navController.topViewController;
-        [issuesController setSelectedProject:selectedProject];
     }
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     [self performSegueWithIdentifier:@"AddNewProject" sender:indexPath];
-}
-
-- (void)addProjectControllerDidSave:(BOOL)result
-{
-    if (result) [self loadProjects];
 }
 
 @end

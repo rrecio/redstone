@@ -57,7 +57,7 @@ typedef enum {
 /**
  * method to paginate through issue list (by 25 items per page)
  */
-- (void)loadMoreIssues;
+- (NSError *)loadMoreIssues;
 
 /**
  * method used to figure out if all issues were already loaded;

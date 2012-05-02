@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Owera Software. All rights reserved.
 //
 
-#import "OWTarefaCell.h"
+#import "OWIssueCell.h"
 
-@implementation OWTarefaCell
+@implementation OWIssueCell
 @synthesize authorLabel, assignedToLabel, statusLabel, priorityLabel, dueLabel, versionLabel;
-@synthesize trackerLabel, indexLabel, startLabel, subjectLabel;
+@synthesize trackerLabel, indexLabel, startLabel, subjectLabel, dateCreatedLabel, descriptionLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

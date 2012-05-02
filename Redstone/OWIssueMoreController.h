@@ -12,6 +12,6 @@
 @interface OWIssueMoreController : UITableViewController <OWListDelegate>
 @property (strong, nonatomic) RKIssue *issue;
 @property (strong, nonatomic) RKIssueOptions *updateOptions;
-@property (strong, nonatomic) IBOutlet UITextField *subjectField;
-@property (strong, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property (strong, nonatomic) UITextField *subjectField;
+@property (strong, nonatomic) UITextView *descriptionTextView;
 @end

@@ -15,6 +15,20 @@
 @implementation OWIssueMoreController
 @synthesize issue, subjectField, descriptionTextView, updateOptions;
 
+- (id)init
+{
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    if (self) {
+        subjectField = [[UITextField alloc] initWithFrame:CGRectMake(150, 10, 160, 20)];
+        subjectField.placeholder = @"Subject";
+        subjectField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+        descriptionTextView = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, 300, 400)];
+        descriptionTextView.backgroundColor = [UIColor clearColor];
+        descriptionTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+    }
+    return self;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 //    return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -37,33 +51,71 @@
     issue.issueDescription = descriptionTextView.text;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    UIStoryboardPopoverSegue *popSegue = (UIStoryboardPopoverSegue *)segue;
-    OWListController *listController = (OWListController *)[segue destinationViewController];
-    popSegue.popoverController.popoverContentSize = CGSizeMake(320, listController.picker.frame.size.height);
-    listController.popoverController = popSegue.popoverController;
-    listController.identifier = [segue identifier];
-    listController.delegate = self;
-    listController.list = updateOptions.trackers;
-    [listController.picker selectRow:[updateOptions.trackers indexOfObject:issue.tracker] inComponent:0 animated:NO];
-}
-
 - (void)listController:(OWListController *)controller didSelectItemOnIndex:(NSUInteger)index
 {
     issue.tracker = [controller.list objectAtIndex:index];
     [self.tableView reloadData];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 2) return 420;
+    return 44;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell;
     
-    if (indexPath.section == 0 && indexPath.row == 0) {
+    if (indexPath.section == 0) {
+        static NSString *trackerCell;
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:trackerCell];
         cell.detailTextLabel.text = issue.tracker.name;
+        cell.textLabel.text = @"Tracker";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
+    if (indexPath.section == 1) {
+        static NSString *subjectCell;        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:subjectCell];
+        [cell.contentView addSubview:subjectField];
+        cell.textLabel.text = @"Subject";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    if (indexPath.section == 2) {
+        static NSString *descCell;        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:descCell];
+        [cell.contentView addSubview:descriptionTextView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }    
     
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 2) return @"Description";
+    return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        OWListController *listController = [[OWListController alloc] init];
+        listController.delegate = self;
+        listController.list = updateOptions.trackers;
+        [listController.picker selectRow:[updateOptions.trackers indexOfObject:issue.tracker] inComponent:0 animated:NO];
+        [self.navigationController pushViewController:listController animated:YES];
+    }
 }
 
 @end

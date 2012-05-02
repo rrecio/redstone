@@ -127,10 +127,10 @@
     return _projects;
 }
 
-- (void)loadMoreProjects
+- (NSError *)loadMoreProjects
 {
     if ([self isLastPage]) {
-        return;
+        return nil;
     }
     NSString *urlString         = [NSString stringWithFormat:@"%@/projects.json?page=%d&key=%@", self.serverAddress, projectPage++, self.apiKey];
     NSURL *url                  = [NSURL URLWithString:urlString];
@@ -148,6 +148,7 @@
     if (error) {
         NSLog(@"Error loading more projects: %@", [error localizedDescription]);
     }
+    return error;
 }
 
 - (BOOL)isLastPage

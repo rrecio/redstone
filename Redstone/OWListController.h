@@ -11,7 +11,7 @@
 @protocol OWListDelegate;
 
 @interface OWListController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
-@property (nonatomic) IBOutlet UIPickerView *picker;
+@property (nonatomic) UIPickerView *picker;
 @property (nonatomic) NSArray *list;
 @property (nonatomic) UIPopoverController *popoverController;
 @property (nonatomic) id<OWListDelegate> delegate;

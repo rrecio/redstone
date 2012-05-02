@@ -96,10 +96,10 @@
     return string;
 }
 
-- (void)loadMoreIssues
+- (NSError *)loadMoreIssues
 {
     if ([self isLastPage]) {
-        return;
+        return nil;
     }
     NSString *order = [self.orderIssuesDesc boolValue] ? @":desc" : @"";
     NSString *sortBy = [self stringForSortBySelection];
@@ -121,6 +121,7 @@
     } else {
         NSLog(@"Error loading more issues: %@. URL string: %@", [error localizedDescription], urlString);
     }
+    return error;
 }
 
 - (BOOL)isLastPage

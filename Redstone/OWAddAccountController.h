@@ -13,13 +13,13 @@
 
 @interface OWAddAccountController : UITableViewController
 
-@property (strong, nonatomic) IBOutlet UITextField *serverField;
-@property (strong, nonatomic) IBOutlet UITextField *userField;
-@property (strong, nonatomic) IBOutlet UITextField *passField;
+@property (strong, nonatomic) UITextField *serverField;
+@property (strong, nonatomic) UITextField *userField;
+@property (strong, nonatomic) UITextField *passField;
 @property (strong, nonatomic) id<OWAddAccountDelegate> delegate;
 
-- (IBAction)doneAction:(id)sender;
-- (IBAction)cancelAction:(id)sender;
+- (void)doneAction:(id)sender;
+- (void)cancelAction:(id)sender;
 
 @end
 

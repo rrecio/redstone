@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OWTarefaCell : UITableViewCell
+@interface OWIssueCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *trackerLabel;
+@property (strong, nonatomic) IBOutlet UILabel *dateCreatedLabel;
+@property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *indexLabel;
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property (strong, nonatomic) IBOutlet UILabel *priorityLabel;

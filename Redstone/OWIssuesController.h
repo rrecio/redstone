@@ -10,8 +10,6 @@
 #import "RedmineKit.h"
 #import "OWIssueUpdateController.h"
 
-@interface OWIssuesController : UITableViewController <UISplitViewControllerDelegate, OWIssueUpdateDelegate>
-
-@property (strong, nonatomic) RKProject *selectedProject;
+@interface OWIssuesController : UITableViewController <UISplitViewControllerDelegate>
 
 @end

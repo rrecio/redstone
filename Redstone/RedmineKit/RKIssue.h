@@ -51,4 +51,6 @@
 
 - (NSMutableDictionary *)issueDictWithNotes:(NSString *)notes;
 
+- (NSError *)loadJournals;
+
 @end

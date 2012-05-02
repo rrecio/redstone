@@ -55,7 +55,7 @@
  * Method that paginates the items, loading 25 more items and add them
  * to the projects array each time it's called. (unless it's the last page).
  */
-- (void)loadMoreProjects;
+- (NSError *)loadMoreProjects;
 
 /**
  * method used to figure out if all projects were already loaded;

@@ -16,8 +16,9 @@
 @interface OWIssueUpdateController : UITableViewController <OWListDelegate, OWDatePickerControllerDelegate>
 
 @property (strong, nonatomic) RKIssue *issue;
-@property (strong, nonatomic) IBOutlet UITextView *notesTextView;
-@property (strong, nonatomic) IBOutlet UITextField *commentsTextField;
+@property (strong, nonatomic) UITextView *notesTextView;
+@property (strong, nonatomic) UITextField *commentsTextField;
+@property (strong, nonatomic) UITextField *parentField;
 @property (strong, nonatomic) id<OWIssueUpdateDelegate> delegate;
 @property (strong, nonatomic) RKIssueOptions *issueOptions;
 @property (strong, nonatomic) RKTimeEntry *timeEntry;
@@ -26,7 +27,6 @@
 - (IBAction)cancelAction:(id)sender;
 - (IBAction)doneAction:(id)sender;
 - (NSString *)stringValueForIndex:(NSIndexPath *)indexPath;
-- (UITableViewCell *)myTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @protocol OWIssueUpdateDelegate <NSObject>

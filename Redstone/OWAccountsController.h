@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OWAddAccountController.h"
 
 @class OWIssuesController;
 
-@interface OWAccountsController : UITableViewController <OWAddAccountDelegate>
+@interface OWAccountsController : UITableViewController
 
 @property (strong, nonatomic) OWIssuesController *tarefasController;
-
-- (void)accountControllerDidSaveAccount:(OWAddAccountController *)accountController;
 
 @end

@@ -233,7 +233,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [super myTableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {

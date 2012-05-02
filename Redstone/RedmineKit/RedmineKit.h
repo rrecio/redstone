@@ -15,3 +15,4 @@
 #import "RKValue.h"
 #import "RKIssueOptions.h"
 #import "RKParseHelper.h"
+#import "RedmineKitManager.h"

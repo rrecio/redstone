@@ -7,21 +7,33 @@
 //
 
 #import "OWAppDelegate.h"
+#import "OWAccountsController.h"
+#import "OWIssuesController.h"
 
 @implementation OWAppDelegate
 
 @synthesize window = _window;
+@synthesize splitViewController = _splitViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // TestFlight take off :D
     [TestFlight takeOff:@"22821bff1c1f5400845c2a819d3ec9dc_MjE2MDIyMDExLTA3LTIyIDEzOjQyOjE2LjAzNDM1NQ"];
+
+    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    _splitViewController = [[UISplitViewController alloc] init];
     
-    // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        splitViewController.delegate = (id)[(UINavigationController *)[(UITabBarController *)[splitViewController.viewControllers lastObject] selectedViewController] topViewController];
-    }
+    OWAccountsController *masterController = [[OWAccountsController alloc] init];
+    UINavigationController *masterNavController = [[UINavigationController alloc] initWithRootViewController:masterController];
+    
+    OWIssuesController *detailController = [[OWIssuesController alloc] init];
+    UINavigationController *detailNavController = [[UINavigationController alloc] initWithRootViewController:detailController];
+    
+    _splitViewController.viewControllers = [[NSArray alloc] initWithObjects:masterNavController, detailNavController, nil];
+    
+    [_window addSubview:_splitViewController.view];
+    [_window makeKeyAndVisible];
+    
     return YES;
 }
 							

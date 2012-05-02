@@ -7,14 +7,15 @@
 //
 
 #import "OWAccountsController.h"
-
+#import "OWAddAccountController.h"
 #import "OWIssuesController.h"
-
+#import "RedmineKitManager.h"
 #import "RedmineKit.h"
-#import "OWAccountMenuController.h"
+#import "OWProjectsController.h"
 
-@interface OWAccountsController () {
-    NSMutableArray *_accounts;
+@interface OWAccountsController () 
+{
+    RedmineKitManager *workflowManager;
 }
 @end
 
@@ -22,40 +23,51 @@
 
 @synthesize tarefasController = _tarefasController;
 
-- (void)awakeFromNib
+- (id)init
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        self.clearsSelectionOnViewWillAppear = NO;
-        self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    if (self) {
+        self.title = @"Accounts";
     }
-    [super awakeFromNib];
+    return self;
+}
+
+- (void)addButtonTapped:(id)sender
+{
+    OWAddAccountController *addController = [[OWAddAccountController alloc] init];
+    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(accountWasSaved:) name:@"RKAccountSaved" object:addController];
+    
+    UINavigationController *addNavController = [[UINavigationController alloc] initWithRootViewController:addController];
+    addNavController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:addNavController animated:YES];
+}
+
+- (void)accountWasSaved:(id)sender
+{
+    NSLog(@"ACCOUNT SAVED!!!!!!!");
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UITabBarController *tab = (UITabBarController *)[self.splitViewController.viewControllers lastObject];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
-    self.tarefasController = [storyboard instantiateViewControllerWithIdentifier:@"IssuesList"];
-    UINavigationController *nav = (UINavigationController *)[tab selectedViewController];
-    [nav pushViewController:_tarefasController animated:NO];
     
-    // Load accounts
-    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *dataRepresentingSavedArray = [currentDefaults objectForKey:@"Accounts"];
-    if (dataRepresentingSavedArray != nil)
-    {
-        NSArray *oldSavedArray = [NSKeyedUnarchiver unarchiveObjectWithData:dataRepresentingSavedArray];
-        if (oldSavedArray != nil)
-            _accounts = [[NSMutableArray alloc] initWithArray:oldSavedArray];
-        else
-            _accounts = [[NSMutableArray alloc] init];
-    } else {
-        _accounts = [[NSMutableArray alloc] init];
+    workflowManager = [RedmineKitManager sharedInstance];
+    
+	// Do any additional setup after loading the view, typically from a nib.
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonTapped:)];
+    self.navigationItem.rightBarButtonItem = addButton;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        self.clearsSelectionOnViewWillAppear = NO;
+        self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
     }
+
+    UINavigationController *nav = (UINavigationController *)[self.splitViewController.viewControllers lastObject];
+    [nav pushViewController:_tarefasController animated:NO];    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -89,22 +101,34 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _accounts.count;
+    return workflowManager.accounts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    static NSString *identifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    }
 
-    RKRedmine *account = [_accounts objectAtIndex:indexPath.row];
+    RKRedmine *account = [workflowManager.accounts objectAtIndex:indexPath.row];
     cell.textLabel.text = account.username;
     cell.detailTextLabel.text = account.serverAddress;
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    RKRedmine *account = [workflowManager.accounts objectAtIndex:indexPath.row];
+    workflowManager.selectedAccount = account;
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    
+    OWProjectsController *projectsController = [[OWProjectsController alloc] init];
+    [self.navigationController pushViewController:projectsController animated:YES];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -116,7 +140,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_accounts removeObjectAtIndex:indexPath.row];
+        RKRedmine *account = [workflowManager.accounts objectAtIndex:indexPath.row];
+        [workflowManager removeAccount:account];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -138,26 +163,5 @@
     return YES;
 }
 */
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"ShowAccountMenu"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        RKRedmine *account = [_accounts objectAtIndex:indexPath.row];
-        [(OWAccountMenuController *)[segue destinationViewController] setAccount:account];
-    }
-    if ([[segue identifier] isEqualToString:@"AddAccount"]) {
-        UINavigationController *navController = (UINavigationController *)[segue destinationViewController];
-        [(OWAddAccountController *)navController.topViewController setDelegate:self];
-    }
-}
-
-- (void)accountControllerDidSaveAccount:(RKRedmine *)account
-{
-    [_accounts addObject:account];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_accounts] forKey:@"Accounts"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [self.tableView reloadData];
-}
 
 @end

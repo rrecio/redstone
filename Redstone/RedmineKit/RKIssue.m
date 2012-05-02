@@ -17,7 +17,6 @@
 
 
 @interface RKIssue ()
-- (void)loadJournals;
 @end
 
 @implementation RKIssue
@@ -58,7 +57,7 @@
     return _journals;
 }
 
-- (void)loadJournals
+- (NSError *)loadJournals
 {
     NSString *urlString         = [NSString stringWithFormat:@"%@/projects/%@/issues/%@.json?include=journals&key=%@", self.project.redmine.serverAddress, self.project.index, self.index, self.project.redmine.apiKey];
     NSURL *url                  = [NSURL URLWithString:urlString];
@@ -89,6 +88,7 @@
     } else {
         NSLog(@"Error retrieving journals: %@", [error localizedDescription]);
     }
+    return error;
 }
 
 - (NSMutableArray *)refreshJournals

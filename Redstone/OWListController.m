@@ -20,6 +20,19 @@
 @synthesize identifier;
 @synthesize selectedIndex;
 
+- (id)init
+{
+    self = [super init];
+    
+    picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 400)];
+    picker.delegate = self;
+    picker.dataSource = self;
+    picker.showsSelectionIndicator = YES;
+    self.view = picker;
+    
+    return self;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 //    return (interfaceOrientation == UIInterfaceOrientationPortrait);

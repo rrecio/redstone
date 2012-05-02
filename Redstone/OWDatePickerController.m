@@ -1,6 +1,6 @@
 //
 //  OWDatePickerController.m
-//  Redstone
+//  
 //
 //  Created by Rodrigo Recio on 26/02/12.
 //  Copyright (c) 2012 Owera Software. All rights reserved.
@@ -15,6 +15,16 @@
 @implementation OWDatePickerController
 
 @synthesize datePicker, identifier, popoverController, delegate, valueChanged;
+
+- (id)init
+{
+    self = [super init];
+    
+    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 320, 400)];
+    self.view = datePicker;
+    
+    return self;
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
