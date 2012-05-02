@@ -16,7 +16,7 @@
 
 @interface OWIssuesController ()
 {
-    RedmineKitManager *workflowManager;
+    RedmineKitManager *manager;
     BOOL _reconfigureViewWhenItAppear;
     OWIssueController *issueController;
 }
@@ -33,13 +33,13 @@
     [super viewDidLoad];
     
     issueController = [[OWIssueController alloc] init];
-    workflowManager = [RedmineKitManager sharedInstance];
+    manager = [RedmineKitManager sharedInstance];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(projectWasSelected:) name:@"RKProjectSelected" object:nil];
 }
 
 - (void)projectWasSelected:(id)sender
 {
-    [self setSelectedProject:workflowManager.selectedProject];
+    [self setSelectedProject:manager.selectedProject];
 }
 
 #pragma mark - Managing the detail item
@@ -64,8 +64,8 @@
 {
     // Update the user interface for the detail item.
 
-    if (workflowManager.selectedProject) {
-        self.navigationItem.title = workflowManager.selectedProject.name;
+    if (manager.selectedProject) {
+        self.navigationItem.title = manager.selectedProject.name;
 
         // ...
         MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
@@ -79,7 +79,7 @@
 
 - (void)loadIssues:(MBProgressHUD *)hud
 {
-    NSArray *issues = workflowManager.selectedProject.issues;
+    NSArray *issues = manager.selectedProject.issues;
     if (issues != nil) {
         [self performSelectorOnMainThread:@selector(finishedLoadingIssues:) withObject:hud waitUntilDone:YES];
     } else {
@@ -150,12 +150,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [workflowManager.selectedProject.issues count];
+    return [manager.selectedProject.issues count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RKIssue *issue = [workflowManager.selectedProject.issues objectAtIndex:indexPath.row];
+    RKIssue *issue = [manager.selectedProject.issues objectAtIndex:indexPath.row];
     static NSString *identifier = @"Cell";
     OWIssueCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier];
    
@@ -187,7 +187,7 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    if (indexPath.row+1 == [workflowManager.selectedProject.issues count]) {
+    if (indexPath.row+1 == [manager.selectedProject.issues count]) {
         cell.backgroundView.layer.shadowColor = [[UIColor blackColor] CGColor];
         cell.backgroundView.layer.shadowOffset = CGSizeMake(0, 10);
         cell.backgroundView.layer.shadowOpacity = 0.50;
@@ -201,7 +201,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    workflowManager.selectedIssue = [workflowManager.selectedProject.issues objectAtIndex:indexPath.row];
+    manager.selectedIssue = [manager.selectedProject.issues objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:issueController animated:YES];
 }
 

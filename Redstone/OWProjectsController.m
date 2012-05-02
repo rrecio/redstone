@@ -19,7 +19,7 @@
 
 @interface OWProjectsController ()
 {
-    RedmineKitManager *workflowManager;
+    RedmineKitManager *manager;
 }
 @end
 
@@ -31,7 +31,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
-    workflowManager = [RedmineKitManager sharedInstance];
+    manager = [RedmineKitManager sharedInstance];
     self.title = @"Projects";
     
     return self;
@@ -43,7 +43,7 @@
 {
     [super viewDidAppear:animated];
     
-    if (workflowManager.selectedAccount.projects != nil) {
+    if (manager.selectedAccount.projects != nil) {
         [self loadProjects];
     }
     
@@ -57,11 +57,11 @@
     UISplitViewController *splitController = (UISplitViewController *)[UIApplication sharedApplication].delegate.window.rootViewController;
     UINavigationController *navController = (UINavigationController *)[splitController.viewControllers lastObject];
     if ([navController.topViewController isKindOfClass:[OWIssuesController class]]) {
-        [workflowManager setSelectedProject:nil];
+        [manager setSelectedProject:nil];
     }
     if ([navController.topViewController isKindOfClass:[OWIssueController class]]) {
         [navController popViewControllerAnimated:YES];
-        [workflowManager setSelectedProject:nil];
+        [manager setSelectedProject:nil];
     }
 }
 
@@ -99,7 +99,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return workflowManager.selectedAccount.projects.count;
+    return manager.selectedAccount.projects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -112,7 +112,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
     }
     
-    RKProject *project = [workflowManager.selectedAccount.projects objectAtIndex:indexPath.row];
+    RKProject *project = [manager.selectedAccount.projects objectAtIndex:indexPath.row];
     cell.textLabel.text = project.name;
 
     return cell;
@@ -120,7 +120,7 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row+1 == [workflowManager.selectedAccount.projects count]) {
+    if (indexPath.row+1 == [manager.selectedAccount.projects count]) {
         cell.backgroundView.layer.shadowColor = [[UIColor blackColor] CGColor];
         cell.backgroundView.layer.shadowOffset = CGSizeMake(0, 10);
         cell.backgroundView.layer.shadowOpacity = 0.50;
@@ -135,8 +135,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UISplitViewController *splitController = (UISplitViewController *)[UIApplication sharedApplication].delegate.window.rootViewController;
-    RKProject *selectedProject = [workflowManager.selectedAccount.projects objectAtIndex:indexPath.row];
-    workflowManager.selectedProject = selectedProject;
+    RKProject *selectedProject = [manager.selectedAccount.projects objectAtIndex:indexPath.row];
+    manager.selectedProject = selectedProject;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"RKProjectSelected" object:nil];
     

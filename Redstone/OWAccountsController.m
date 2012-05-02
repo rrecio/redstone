@@ -15,7 +15,7 @@
 
 @interface OWAccountsController () 
 {
-    RedmineKitManager *workflowManager;
+    RedmineKitManager *manager;
 }
 @end
 
@@ -54,7 +54,7 @@
 {
     [super viewDidLoad];
     
-    workflowManager = [RedmineKitManager sharedInstance];
+    manager = [RedmineKitManager sharedInstance];
     
 	// Do any additional setup after loading the view, typically from a nib.
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonTapped:)];
@@ -101,7 +101,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return workflowManager.accounts.count;
+    return manager.accounts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -114,7 +114,7 @@
         cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
 
-    RKRedmine *account = [workflowManager.accounts objectAtIndex:indexPath.row];
+    RKRedmine *account = [manager.accounts objectAtIndex:indexPath.row];
     cell.textLabel.text = account.username;
     cell.detailTextLabel.text = account.serverAddress;
     
@@ -123,8 +123,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RKRedmine *account = [workflowManager.accounts objectAtIndex:indexPath.row];
-    workflowManager.selectedAccount = account;
+    RKRedmine *account = [manager.accounts objectAtIndex:indexPath.row];
+    manager.selectedAccount = account;
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     
     OWProjectsController *projectsController = [[OWProjectsController alloc] init];
@@ -140,8 +140,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        RKRedmine *account = [workflowManager.accounts objectAtIndex:indexPath.row];
-        [workflowManager removeAccount:account];
+        RKRedmine *account = [manager.accounts objectAtIndex:indexPath.row];
+        [manager removeAccount:account];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
