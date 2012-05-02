@@ -22,6 +22,7 @@
     
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 320, 400)];
     self.view = datePicker;
+    [self.datePicker addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
     
     return self;
 }
@@ -30,13 +31,6 @@
 {
 //    return (interfaceOrientation == UIInterfaceOrientationPortrait);
     return YES;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    [self.datePicker addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)valueChanged:(id)sender
@@ -48,7 +42,6 @@
 {
     [super viewWillDisappear:animated];
     
-
     [self.delegate datePickerController:self didSelectDate:self.datePicker.date];
 }
 

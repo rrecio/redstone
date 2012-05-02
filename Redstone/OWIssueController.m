@@ -23,7 +23,11 @@
 
 - (id)init
 {
-    return [self initWithStyle:UITableViewStyleGrouped];
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    
+    self.title = @"Issue";
+    
+    return self;
 }
 
 - (void)viewDidLoad

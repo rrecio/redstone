@@ -31,6 +31,7 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     
+    self.title = @"Issue Update";
     moreController = [[OWIssueMoreController alloc] init];
     commentsTextField = [[UITextField alloc] initWithFrame:CGRectMake(150, 10, 300, 40)];
     commentsTextField.textAlignment = UITextAlignmentRight;
@@ -336,8 +337,18 @@
             OWDatePickerController *datePicker = [[OWDatePickerController alloc] init];
             datePicker.delegate = self;
             datePicker.identifier = [self labelForIndexPath:indexPath];
+            
+            if (indexPath.row == 6) {
+                datePicker.datePicker.datePickerMode = UIDatePickerModeDate;
+                if (issue.startDate) datePicker.datePicker.date = issue.startDate;
+            }
+            if (indexPath.row == 7) {
+                datePicker.datePicker.datePickerMode = UIDatePickerModeDate;
+                if (issue.dueDate) datePicker.datePicker.date = issue.dueDate;
+            }
             if (indexPath.row == 8) {
-                datePicker.datePicker.countDownDuration = [timeEntry.hours doubleValue]*3600;
+                datePicker.datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
+                if (timeEntry.hours) datePicker.datePicker.countDownDuration = [timeEntry.hours doubleValue]*3600;
             }
             
             destinationController = datePicker;
@@ -356,6 +367,7 @@
         if (indexPath.row == 1) {
             OWDatePickerController *datePicker = [[OWDatePickerController alloc] init];
             datePicker.delegate = self;
+            datePicker.datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
             datePicker.datePicker.countDownDuration = [timeEntry.hours doubleValue]*3600;
             datePicker.identifier = [self labelForIndexPath:indexPath];
             destinationController = datePicker;
@@ -533,6 +545,15 @@
     if (indexPath.section == 2) {
         switch (indexPath.row) {
             case 0:
+                if (timeEntry.activity.name != nil || [timeEntry.activity.name isEqualToString:@""]) {
+                    stringValue = timeEntry.activity.name;
+                } else {
+                    if (issueOptions.activities.count > 0) {
+                        stringValue = [[issueOptions.activities objectAtIndex:0] name];
+                    }
+                }
+                break;
+            case 1:
             {
                 if (timeEntry.hours) {
                     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
@@ -543,15 +564,6 @@
                     stringValue = [NSString stringWithFormat:@"%@ %@", [numberFormatter stringFromNumber:timeEntry.hours], hours];
                 }
             }
-                break;
-            case 1:
-                if (timeEntry.activity.name != nil || [timeEntry.activity.name isEqualToString:@""]) {
-                    stringValue = timeEntry.activity.name;
-                } else {
-                    if (issueOptions.activities.count > 0) {
-                        stringValue = [[issueOptions.activities objectAtIndex:0] name];
-                    }
-                }
                 break;
             default:
                 break;

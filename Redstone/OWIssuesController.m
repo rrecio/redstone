@@ -28,6 +28,15 @@
 
 @synthesize masterPopoverController = _masterPopoverController;
 
+- (id)init
+{
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        self.title = @"Issues";
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -65,8 +74,6 @@
     // Update the user interface for the detail item.
 
     if (manager.selectedProject) {
-        self.navigationItem.title = manager.selectedProject.name;
-
         // ...
         MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
         hud.labelText = NSLocalizedString(@"Loading issues...", nil);
