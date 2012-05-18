@@ -7,12 +7,14 @@
 //
 
 #import "OWTimeTrackController.h"
-#import "QuartzCore/QuartzCore.h"
+#import "RedmineKitManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kTimerInterval		0.1f
 
 
 @interface OWTimeTrackController () {
+    RedmineKitManager *manager;
     NSTimer *timer;
     CFTimeInterval _ticks;
     BOOL timerActivated;
@@ -67,7 +69,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	manager = [RedmineKitManager sharedInstance];
+    [manager addObserver:self forKeyPath:@"selectedIssue" options:NSKeyValueChangeSetting context:nil];
 }
 
 - (void)viewDidUnload
@@ -134,5 +137,17 @@
 - (void)task:(id)sender
 {
     NSLog();
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if (object == manager)
+	{
+        [taskButton setTitle:[NSString stringWithFormat:@"%@", manager.selectedIssue.subject] forState:UIControlStateNormal];
+	}
+	else
+	{
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+	}
 }
 @end
