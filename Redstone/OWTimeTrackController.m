@@ -75,8 +75,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	manager = [RedmineKitManager sharedInstance];
+    manager = [RedmineKitManager sharedInstance];
     [manager addObserver:self forKeyPath:@"selectedIssue" options:NSKeyValueChangeSetting context:nil];
+    [manager addObserver:self forKeyPath:@"selectedIssue" options:NSKeyValueChangeInsertion context:nil];
+    [manager addObserver:self forKeyPath:@"selectedIssue" options:NSKeyValueChangeRemoval context:nil];
+    [manager addObserver:self forKeyPath:@"selectedIssue" options:NSKeyValueChangeReplacement context:nil];
 }
 
 - (void)viewDidUnload
@@ -107,9 +110,12 @@
 - (void)stop:(id)sender
 {
     NSLog(@"STOPADO!");
-    timerActivated = NO;
-    [playButton setImage:[UIImage imageNamed:@"16-play"] forState:UIControlStateNormal];
-    [self stopTimer];
+    if (timerActivated) {
+        timerActivated = NO;
+        _ticks = 0;
+        [playButton setImage:[UIImage imageNamed:@"16-play"] forState:UIControlStateNormal];
+        [self stopTimer];
+    }
 }
 
 - (void)startTimer:(NSTimeInterval)timerInterval
@@ -164,12 +170,28 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if (object == manager)
+    if (object == manager)
 	{
-        [taskButton setTitle:[NSString stringWithFormat:@"%@", manager.selectedIssue.subject] forState:UIControlStateNormal];
-        playButton.enabled = YES;
-        stopButton.enabled = YES;
-        _issue = manager.selectedIssue;
+        if ([change valueForKey:@"old"] && [change valueForKey:@"new"]) {
+            NSLog(@"change: %@", change);
+            NSLog(@"New   : %@", [[change valueForKey:@"new"] class]);
+            NSLog(@"Old   : %@", [[change valueForKey:@"old"] class]);
+
+            if ([[change valueForKey:@"old"] class] == [NSNull class]) {
+                [taskButton setTitle:[NSString stringWithFormat:@"%@", manager.selectedIssue.subject] forState:UIControlStateNormal];
+                playButton.enabled = YES;
+                stopButton.enabled = YES;
+                _issue = manager.selectedIssue;
+            }
+            else if ([change valueForKey:@"old"] == [change valueForKey:@"new"]) {
+                NSLog(@"nada a fazer, iguais");
+            }
+            else {
+                NSLog(@"aqui deve parar, trocou de tarefa...");
+                _issue = [change valueForKey:@"old"];
+                [self stop:nil];
+            }
+        }
 	}
 	else
 	{
