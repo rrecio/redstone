@@ -59,7 +59,7 @@
         [self.view addSubview:stopButton];
         
         self.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
-        self.view.layer.borderWidth = 1.0f;
+        self.view.layer.borderWidth = 0.5f;
     }
     return self;
 }

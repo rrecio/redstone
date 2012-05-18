@@ -17,23 +17,16 @@
 @implementation OWContainerViewController {
     OWTimeTrackController *_timeTrackController;
     UIViewController *_contentController;
+    UINavigationController *_navigationController;
 }
 @synthesize timeTrackerController, accountsController;
-
-//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-//{
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        // Custom initialization
-//    }
-//    return self;
-//}
 
 - (id)initWithContentViewController:(UIViewController *)contentController {
     self = [super init];
     if (self != nil) {
         _timeTrackController = [[OWTimeTrackController alloc] init];
         _contentController = contentController;
+        _navigationController = [[UINavigationController alloc] initWithRootViewController:_contentController];
     }
     return self;
 }
@@ -49,11 +42,11 @@
     [contentView addSubview:_timeTrackController.view];
     
     CGRect contentFrame = CGRectMake(0, 0, 320, 520);
-    _contentController.view.frame = contentFrame;
-    [self addChildViewController:_contentController];
-    [contentView addSubview:_contentController.view];
+    _navigationController.view.frame = contentFrame;
+    [self addChildViewController:_navigationController];
+    [contentView addSubview:_navigationController.view];
     
-    [_contentController didMoveToParentViewController:self];
+    [_navigationController didMoveToParentViewController:self];
     self.view = contentView;
     
 }
@@ -61,12 +54,12 @@
 - (void)viewDidLayoutSubviews
 {
     CGRect contentFrame = self.view.bounds;
-    CGRect timerFrame = CGRectMake(0, contentFrame.size.height - 260, 320, 260);
+    CGRect timerFrame = CGRectMake(0, contentFrame.size.height - 200, 320, 200);
     
     contentFrame.size.height -= timerFrame.size.height;
     timerFrame.origin.y = contentFrame.size.height;
     
-    _contentController.view.frame = contentFrame;
+    _navigationController.view.frame = contentFrame;
     _timeTrackController.view.frame = timerFrame;
 }
 
