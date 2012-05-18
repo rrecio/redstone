@@ -8,6 +8,7 @@
 
 #import "OWTimeTrackController.h"
 #import "RedmineKitManager.h"
+#import "MBProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define kTimerInterval		0.1f
@@ -18,6 +19,8 @@
     NSTimer *timer;
     CFTimeInterval _ticks;
     BOOL timerActivated;
+    RKTimeEntry *timeEntry;
+    RKIssue *_issue;
 }
 - (void)startTimer:(NSTimeInterval)timerInterval;
 @end
@@ -29,6 +32,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        timeEntry = [[RKTimeEntry alloc] init];
         // Custom initialization
         self.view.backgroundColor = [UIColor lightGrayColor];
         CGRect frame = CGRectMake(20, 20, 280, 40);
@@ -51,6 +55,7 @@
         playButton.frame = frame;
         [playButton setImage:[UIImage imageNamed:@"16-play"] forState:UIControlStateNormal];
         [playButton addTarget:self action:@selector(play:) forControlEvents:UIControlEventTouchDown];
+        playButton.enabled = NO;
         [self.view addSubview:playButton];
         
         frame.origin.x += 120;
@@ -58,6 +63,7 @@
         stopButton.frame = frame;
         [stopButton setImage:[UIImage imageNamed:@"18-stop"] forState:UIControlStateNormal];
         [stopButton addTarget:self action:@selector(stop:) forControlEvents:UIControlEventTouchDown];
+        stopButton.enabled = NO;
         [self.view addSubview:stopButton];
         
         self.view.layer.borderColor = [UIColor darkGrayColor].CGColor;
@@ -101,6 +107,8 @@
 - (void)stop:(id)sender
 {
     NSLog(@"STOPADO!");
+    timerActivated = NO;
+    [playButton setImage:[UIImage imageNamed:@"16-play"] forState:UIControlStateNormal];
     [self stopTimer];
 }
 
@@ -121,6 +129,19 @@
 	timeLabel.text = @"00:00:00";
     timerActivated = NO;
     [timer invalidate];
+    timer = nil;
+    if (timeEntry.hours != nil) {
+        timeEntry.activity = [[RKValue alloc] initWithName:@"Design" andIndex:[NSNumber numberWithInt:8]];
+        if (timeEntry.activity == nil) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log time is invalid" message:@"Activity can't be blank" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alert show];
+            return;
+        } else {
+            [self beginPostingTimeEntry];
+        }
+    } else {
+        [self beginPostingTimeEntry];
+    }
 }
 
 - (void)timerTick: (NSTimer *) timer
@@ -131,6 +152,8 @@
         double minutes = fmod(trunc(_ticks / 60.0), 60.0);
         double hours = trunc(_ticks / 3600.0);
         timeLabel.text = [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f", hours, minutes, seconds];
+        
+        timeEntry.hours = [NSNumber numberWithDouble:(minutes/60 + hours)];
     }
 }
 
@@ -144,10 +167,41 @@
 	if (object == manager)
 	{
         [taskButton setTitle:[NSString stringWithFormat:@"%@", manager.selectedIssue.subject] forState:UIControlStateNormal];
+        playButton.enabled = YES;
+        stopButton.enabled = YES;
+        _issue = manager.selectedIssue;
 	}
 	else
 	{
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
 }
+
+- (void)beginPostingTimeEntry
+{
+    [TestFlight passCheckpoint:@"Begin Posting Time Entry"];
+    
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    hud.labelText = @"Posting time entry...";
+    [self.view addSubview:hud];
+    [hud show:YES];
+    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(postTimeEntry:) object:hud];
+    [[NSOperationQueue mainQueue] addOperation:op];
+}
+
+- (void)postTimeEntry:(MBProgressHUD *)hud
+{
+//    timeEntry.comments = commentsTextField.text;
+    [_issue postTimeEntry:timeEntry];
+    [self performSelectorOnMainThread:@selector(finishedPostingTimeEntry:) withObject:hud waitUntilDone:NO];
+}
+
+- (void)finishedPostingTimeEntry:(MBProgressHUD *)hud
+{
+    [TestFlight passCheckpoint:@"Posted Time Entry"];
+    
+    [hud hide:YES];
+//    [self beginSavingIssue];
+}
+
 @end

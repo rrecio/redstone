@@ -223,6 +223,7 @@
         }
         if ([controller.identifier isEqualToString:@"Activity"]) {
             timeEntry.activity = [controller.list objectAtIndex:index];
+            NSLog(@"timeEntry.activity: %@", [timeEntry.activity class]);
         }
         [self.tableView reloadData];
     }
