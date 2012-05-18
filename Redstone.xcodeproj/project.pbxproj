@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		022DA6CE1561798F00033E45 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022DA6CD1561798F00033E45 /* QuartzCore.framework */; };
+		023AD11C15655BE500B2B1A5 /* OWContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 023AD11B15655BE500B2B1A5 /* OWContainerViewController.m */; };
+		029A07851561527B0093F20D /* 16-play.png in Resources */ = {isa = PBXBuildFile; fileRef = 029A077F156152790093F20D /* 16-play.png */; };
+		029A07861561527B0093F20D /* 16-play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 029A0780156152790093F20D /* 16-play@2x.png */; };
+		029A07871561527B0093F20D /* 17-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 029A0781156152790093F20D /* 17-pause.png */; };
+		029A07881561527B0093F20D /* 17-pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 029A07821561527A0093F20D /* 17-pause@2x.png */; };
+		029A07891561527B0093F20D /* 18-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 029A07831561527B0093F20D /* 18-stop.png */; };
+		029A078A1561527B0093F20D /* 18-stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 029A07841561527B0093F20D /* 18-stop@2x.png */; };
+		02A2E4701556FBF7007B1EEA /* OWTimeTrackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A2E46F1556FBF7007B1EEA /* OWTimeTrackController.m */; };
 		5B0AAFDB14F6C5080082285E /* OWAddAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AAFDA14F6C5080082285E /* OWAddAccountController.m */; };
 		5B0AB04814F6D2890082285E /* libxml2.2.7.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */; };
 		5B17FDD114FA17DA00272251 /* OWDatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B17FDD014FA17DA00272251 /* OWDatePickerController.m */; };
@@ -111,6 +120,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		022DA6CD1561798F00033E45 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		023AD11A15655BE500B2B1A5 /* OWContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWContainerViewController.h; sourceTree = "<group>"; };
+		023AD11B15655BE500B2B1A5 /* OWContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWContainerViewController.m; sourceTree = "<group>"; };
+		029A077F156152790093F20D /* 16-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-play.png"; sourceTree = "<group>"; };
+		029A0780156152790093F20D /* 16-play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-play@2x.png"; sourceTree = "<group>"; };
+		029A0781156152790093F20D /* 17-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-pause.png"; sourceTree = "<group>"; };
+		029A07821561527A0093F20D /* 17-pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "17-pause@2x.png"; sourceTree = "<group>"; };
+		029A07831561527B0093F20D /* 18-stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "18-stop.png"; sourceTree = "<group>"; };
+		029A07841561527B0093F20D /* 18-stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "18-stop@2x.png"; sourceTree = "<group>"; };
+		02A2E46E1556FBF7007B1EEA /* OWTimeTrackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWTimeTrackController.h; sourceTree = "<group>"; };
+		02A2E46F1556FBF7007B1EEA /* OWTimeTrackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWTimeTrackController.m; sourceTree = "<group>"; };
 		5B0AAFD914F6C5080082285E /* OWAddAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWAddAccountController.h; sourceTree = "<group>"; };
 		5B0AAFDA14F6C5080082285E /* OWAddAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWAddAccountController.m; sourceTree = "<group>"; };
 		5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.7.3.dylib; path = usr/lib/libxml2.2.7.3.dylib; sourceTree = SDKROOT; };
@@ -237,6 +257,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				022DA6CE1561798F00033E45 /* QuartzCore.framework in Frameworks */,
 				5B94F6AD14FD00BE00683708 /* libz.1.2.5.dylib in Frameworks */,
 				5B0AB04814F6D2890082285E /* libxml2.2.7.3.dylib in Frameworks */,
 				5BED83B014F5C73600CE4D2D /* UIKit.framework in Frameworks */,
@@ -357,6 +378,12 @@
 				5B4572E414F89478000FD516 /* 40-inbox.png */,
 				5B4572E514F89478000FD516 /* 40-inbox@2x.png */,
 				5B4572E914F8955D000FD516 /* persondot.png */,
+				029A077F156152790093F20D /* 16-play.png */,
+				029A0780156152790093F20D /* 16-play@2x.png */,
+				029A0781156152790093F20D /* 17-pause.png */,
+				029A07821561527A0093F20D /* 17-pause@2x.png */,
+				029A07831561527B0093F20D /* 18-stop.png */,
+				029A07841561527B0093F20D /* 18-stop@2x.png */,
 				5B4572EA14F8955D000FD516 /* persondot@2x.png */,
 				5B4572F114F895DC000FD516 /* 188-paint-roller.png */,
 				5B4572F214F895DC000FD516 /* 188-paint-roller@2x.png */,
@@ -440,6 +467,7 @@
 		5BED83AE14F5C73600CE4D2D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				022DA6CD1561798F00033E45 /* QuartzCore.framework */,
 				5B94F6AB14FD009300683708 /* libz.1.2.5.dylib */,
 				5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */,
 				5BED83AF14F5C73600CE4D2D /* UIKit.framework */,
@@ -477,6 +505,10 @@
 				5B1A650114F6B8E400041B4C /* OWProjectsController.m */,
 				5B2CFC6114FD567D004EBAA8 /* OWAddProjectController.h */,
 				5B2CFC6214FD567D004EBAA8 /* OWAddProjectController.m */,
+				02A2E46E1556FBF7007B1EEA /* OWTimeTrackController.h */,
+				02A2E46F1556FBF7007B1EEA /* OWTimeTrackController.m */,
+				023AD11A15655BE500B2B1A5 /* OWContainerViewController.h */,
+				023AD11B15655BE500B2B1A5 /* OWContainerViewController.m */,
 			);
 			path = Redstone;
 			sourceTree = "<group>";
@@ -598,6 +630,12 @@
 				5BAF700214FEAA8F006A9F03 /* cell_bg.png in Resources */,
 				5BA32A6D15518389003EDF10 /* OWIssueCell.xib in Resources */,
 				5BA32A71155185F7003EDF10 /* OWIssueOverviewCell.xib in Resources */,
+				029A07851561527B0093F20D /* 16-play.png in Resources */,
+				029A07861561527B0093F20D /* 16-play@2x.png in Resources */,
+				029A07871561527B0093F20D /* 17-pause.png in Resources */,
+				029A07881561527B0093F20D /* 17-pause@2x.png in Resources */,
+				029A07891561527B0093F20D /* 18-stop.png in Resources */,
+				029A078A1561527B0093F20D /* 18-stop@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,6 +715,8 @@
 				5B22D67315012CDF00A09865 /* OWIssueOverviewCell.m in Sources */,
 				5B22D6771501321200A09865 /* OWJournalCell.m in Sources */,
 				5B22D67A1501405800A09865 /* OWIssueController.m in Sources */,
+				02A2E4701556FBF7007B1EEA /* OWTimeTrackController.m in Sources */,
+				023AD11C15655BE500B2B1A5 /* OWContainerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

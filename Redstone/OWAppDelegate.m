@@ -9,6 +9,7 @@
 #import "OWAppDelegate.h"
 #import "OWAccountsController.h"
 #import "OWIssuesController.h"
+#import "OWContainerViewController.h"
 
 @implementation OWAppDelegate
 
@@ -23,13 +24,14 @@
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _splitViewController = [[UISplitViewController alloc] init];
     
-    OWAccountsController *masterController = [[OWAccountsController alloc] init];
-    UINavigationController *masterNavController = [[UINavigationController alloc] initWithRootViewController:masterController];
+    OWAccountsController *accountsController = [[OWAccountsController alloc] init];
+//    UINavigationController *masterNavController = [[UINavigationController alloc] initWithRootViewController:accountsController];
+    OWContainerViewController *masterController = [[OWContainerViewController alloc] initWithContentViewController:accountsController];
     
     OWIssuesController *detailController = [[OWIssuesController alloc] init];
     UINavigationController *detailNavController = [[UINavigationController alloc] initWithRootViewController:detailController];
     
-    _splitViewController.viewControllers = [[NSArray alloc] initWithObjects:masterNavController, detailNavController, nil];
+    _splitViewController.viewControllers = [[NSArray alloc] initWithObjects:masterController, detailNavController, nil];
     
     [_window addSubview:_splitViewController.view];
     [_window makeKeyAndVisible];

@@ -9,10 +9,10 @@
 #endif
 
 #ifdef __OBJC__
-    #define NSLog TFLog
 
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "UINavigationController+RedstoneOverrides.h"
     #import "TestFlight.h"
 #endif
+#define NSLog(format, ...) TFLog((@"%s [L%d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
