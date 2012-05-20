@@ -93,6 +93,7 @@
 	return YES;
 }
 
+#pragma mark - Timer
 - (void)play:(id)sender
 {
 	if (!timerActivated) {
@@ -136,18 +137,25 @@
     timerActivated = NO;
     [timer invalidate];
     timer = nil;
-    if (timeEntry.hours != nil) {
-        timeEntry.activity = [[RKValue alloc] initWithName:@"Design" andIndex:[NSNumber numberWithInt:8]];
-        if (timeEntry.activity == nil) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log time is invalid" message:@"Activity can't be blank" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-            [alert show];
-            return;
-        } else {
-            [self beginPostingTimeEntry];
-        }
-    } else {
-        [self beginPostingTimeEntry];
-    }
+    OWIssueUpdateController *updateController = [[OWIssueUpdateController alloc] init];
+    updateController.delegate = self;
+    updateController.timeEntry.hours = timeEntry.hours;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:updateController];
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:navController animated:YES];
+
+//    if (timeEntry.hours != nil) {
+//        timeEntry.activity = [[RKValue alloc] initWithName:@"Design" andIndex:[NSNumber numberWithInt:8]];
+//        if (timeEntry.activity == nil) {
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log time is invalid" message:@"Activity can't be blank" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+//            [alert show];
+//            return;
+//        } else {
+//            [self beginPostingTimeEntry];
+//        }
+//    } else {
+//        [self beginPostingTimeEntry];
+//    }
 }
 
 - (void)timerTick: (NSTimer *) timer
@@ -168,6 +176,7 @@
     NSLog();
 }
 
+#pragma mark - Post timer
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (object == manager)
@@ -224,6 +233,24 @@
     
     [hud hide:YES];
 //    [self beginSavingIssue];
+}
+
+#pragma mark - ListController Delegate Methods
+- (void)listController:(OWListController *)controller didSelectItemOnIndex:(NSUInteger)index
+{
+    
+    if (controller.list.count > 0) {
+        if ([controller.identifier isEqualToString:@"Activity"]) {
+            timeEntry.activity = [controller.list objectAtIndex:index];
+            NSLog(@"timeEntry.activity: %@", [timeEntry.activity class]);
+        }
+//        [self.tableView reloadData];
+    }
+}
+
+- (void)issueUpdateControllerDidDismissed:(OWIssueUpdateController *)issueUpdateController
+{
+//    self.hasChanges = YES;
 }
 
 @end

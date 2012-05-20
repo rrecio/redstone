@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OWListController.h"
+#import "OWIssueUpdateController.h"
 
-@interface OWTimeTrackController : UIViewController
+@interface OWTimeTrackController : UIViewController <OWListDelegate, OWIssueUpdateDelegate>
 @property (strong, nonatomic) UIButton *playButton;
 @property (strong, nonatomic) UIButton *stopButton;
 @property (strong, nonatomic) UIButton *taskButton;
