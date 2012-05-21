@@ -143,19 +143,6 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:updateController];
     navController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentModalViewController:navController animated:YES];
-
-//    if (timeEntry.hours != nil) {
-//        timeEntry.activity = [[RKValue alloc] initWithName:@"Design" andIndex:[NSNumber numberWithInt:8]];
-//        if (timeEntry.activity == nil) {
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log time is invalid" message:@"Activity can't be blank" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-//            [alert show];
-//            return;
-//        } else {
-//            [self beginPostingTimeEntry];
-//        }
-//    } else {
-//        [self beginPostingTimeEntry];
-//    }
 }
 
 - (void)timerTick: (NSTimer *) timer
@@ -206,33 +193,6 @@
 	{
 		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 	}
-}
-
-- (void)beginPostingTimeEntry
-{
-    [TestFlight passCheckpoint:@"Begin Posting Time Entry"];
-    
-    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-    hud.labelText = @"Posting time entry...";
-    [self.view addSubview:hud];
-    [hud show:YES];
-    NSInvocationOperation *op = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(postTimeEntry:) object:hud];
-    [[NSOperationQueue mainQueue] addOperation:op];
-}
-
-- (void)postTimeEntry:(MBProgressHUD *)hud
-{
-//    timeEntry.comments = commentsTextField.text;
-    [_issue postTimeEntry:timeEntry];
-    [self performSelectorOnMainThread:@selector(finishedPostingTimeEntry:) withObject:hud waitUntilDone:NO];
-}
-
-- (void)finishedPostingTimeEntry:(MBProgressHUD *)hud
-{
-    [TestFlight passCheckpoint:@"Posted Time Entry"];
-    
-    [hud hide:YES];
-//    [self beginSavingIssue];
 }
 
 #pragma mark - ListController Delegate Methods
