@@ -16,8 +16,9 @@
 		029A07891561527B0093F20D /* 18-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 029A07831561527B0093F20D /* 18-stop.png */; };
 		029A078A1561527B0093F20D /* 18-stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 029A07841561527B0093F20D /* 18-stop@2x.png */; };
 		02A2E4701556FBF7007B1EEA /* OWTimeTrackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A2E46F1556FBF7007B1EEA /* OWTimeTrackController.m */; };
+		5B09542A16E6ED5C00D880B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B09542916E6ED5C00D880B0 /* Default-568h@2x.png */; };
+		5B09542C16E6ED7F00D880B0 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B09542B16E6ED7F00D880B0 /* libxml2.2.dylib */; };
 		5B0AAFDB14F6C5080082285E /* OWAddAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0AAFDA14F6C5080082285E /* OWAddAccountController.m */; };
-		5B0AB04814F6D2890082285E /* libxml2.2.7.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */; };
 		5B17FDD114FA17DA00272251 /* OWDatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B17FDD014FA17DA00272251 /* OWDatePickerController.m */; };
 		5B1A650214F6B8E400041B4C /* OWProjectsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B1A650114F6B8E400041B4C /* OWProjectsController.m */; };
 		5B22D67315012CDF00A09865 /* OWIssueOverviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B22D67215012CDF00A09865 /* OWIssueOverviewCell.m */; };
@@ -131,9 +132,10 @@
 		029A07841561527B0093F20D /* 18-stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "18-stop@2x.png"; sourceTree = "<group>"; };
 		02A2E46E1556FBF7007B1EEA /* OWTimeTrackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWTimeTrackController.h; sourceTree = "<group>"; };
 		02A2E46F1556FBF7007B1EEA /* OWTimeTrackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWTimeTrackController.m; sourceTree = "<group>"; };
+		5B09542916E6ED5C00D880B0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		5B09542B16E6ED7F00D880B0 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		5B0AAFD914F6C5080082285E /* OWAddAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWAddAccountController.h; sourceTree = "<group>"; };
 		5B0AAFDA14F6C5080082285E /* OWAddAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWAddAccountController.m; sourceTree = "<group>"; };
-		5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.7.3.dylib; path = usr/lib/libxml2.2.7.3.dylib; sourceTree = SDKROOT; };
 		5B17FDCF14FA17DA00272251 /* OWDatePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWDatePickerController.h; sourceTree = "<group>"; };
 		5B17FDD014FA17DA00272251 /* OWDatePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWDatePickerController.m; sourceTree = "<group>"; };
 		5B1A650014F6B8E400041B4C /* OWProjectsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWProjectsController.h; sourceTree = "<group>"; };
@@ -257,9 +259,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B09542C16E6ED7F00D880B0 /* libxml2.2.dylib in Frameworks */,
 				022DA6CE1561798F00033E45 /* QuartzCore.framework in Frameworks */,
 				5B94F6AD14FD00BE00683708 /* libz.1.2.5.dylib in Frameworks */,
-				5B0AB04814F6D2890082285E /* libxml2.2.7.3.dylib in Frameworks */,
 				5BED83B014F5C73600CE4D2D /* UIKit.framework in Frameworks */,
 				5BED83B214F5C73600CE4D2D /* Foundation.framework in Frameworks */,
 				5BED83B414F5C73600CE4D2D /* CoreGraphics.framework in Frameworks */,
@@ -446,6 +448,8 @@
 		5BED83A014F5C73600CE4D2D = {
 			isa = PBXGroup;
 			children = (
+				5B09542B16E6ED7F00D880B0 /* libxml2.2.dylib */,
+				5B09542916E6ED5C00D880B0 /* Default-568h@2x.png */,
 				5BF67DE114FD236B00072B67 /* Release Notes.txt */,
 				5B6163E914F6EAB1007EF781 /* Dependencies */,
 				5BED83B514F5C73600CE4D2D /* Redstone */,
@@ -469,7 +473,6 @@
 			children = (
 				022DA6CD1561798F00033E45 /* QuartzCore.framework */,
 				5B94F6AB14FD009300683708 /* libz.1.2.5.dylib */,
-				5B0AB04614F6D2170082285E /* libxml2.2.7.3.dylib */,
 				5BED83AF14F5C73600CE4D2D /* UIKit.framework */,
 				5BED83B114F5C73600CE4D2D /* Foundation.framework */,
 				5BED83B314F5C73600CE4D2D /* CoreGraphics.framework */,
@@ -591,7 +594,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = OW;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Owera Software";
 			};
 			buildConfigurationList = 5BED83A514F5C73600CE4D2D /* Build configuration list for PBXProject "Redstone" */;
@@ -636,6 +639,7 @@
 				029A07881561527B0093F20D /* 17-pause@2x.png in Resources */,
 				029A07891561527B0093F20D /* 18-stop.png in Resources */,
 				029A078A1561527B0093F20D /* 18-stop@2x.png in Resources */,
+				5B09542A16E6ED5C00D880B0 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -786,6 +790,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -845,6 +853,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -871,6 +883,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

@@ -19,7 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // TestFlight take off :D
-    [TestFlight takeOff:@"22821bff1c1f5400845c2a819d3ec9dc_MjE2MDIyMDExLTA3LTIyIDEzOjQyOjE2LjAzNDM1NQ"];
+//    [TestFlight takeOff:@"22821bff1c1f5400845c2a819d3ec9dc_MjE2MDIyMDExLTA3LTIyIDEzOjQyOjE2LjAzNDM1NQ"];
 
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _splitViewController = [[UISplitViewController alloc] init];
